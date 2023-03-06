@@ -31,7 +31,7 @@ configure({
 });
 
 // 設定預設語系
-setLocale('en');
+setLocale('zhTW');
 
 const app = createApp(App);
 app.use(router);

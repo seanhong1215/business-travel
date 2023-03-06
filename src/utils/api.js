@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseRequest = axios.create({
-  baseURL: `${import.meta.env.VITE_API}`,
+  baseURL: `${import.meta.env.VITE_API/api/import.meta.env.VITE_PATH}`,
 });
 
-export const apiData = () => baseRequest.get('5fd5b0a0-7cec-4ccf-bdec-b9c99c78e29f');
+export const apiData = () => baseRequest.get('products/all');
