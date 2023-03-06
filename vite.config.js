@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  base:'/fontend-sample',
+  base:'/business-travel',
   plugins: [
     vue(),
   ],
