@@ -1,5 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+    <a class="navbar-brand" href="#"><img src="@/assets/img/home/logo.svg" alt=""></a>
     <button
       class="navbar-toggler btn-sm"
       type="button"
@@ -14,47 +16,28 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page"
-            ><i class="bi bi-question-circle"></i>{{ $t("common.help") }}</a
+          <a href="#" class="nav-link" aria-current="page"
+            >關於我們</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link"
-            ><i class="bi bi-person-circle"></i>{{ $t("common.signIn") }}</a
+          <a href="#" class="nav-link"
+            >旅遊規劃</a
           >
         </li>
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><i class="bi bi-heart-fill"></i></a
           >
-            {{ lang }}</a
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link"
+            ><i class="bi bi-cart-fill"></i></a
           >
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a
-                class="dropdown-item"
-                href="#"
-                @click.prevent="handleChangeLang"
-                >{{ locale[0] }}</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                href="#"
-                @click.prevent="handleChangeLang"
-                >{{ locale[1] }}</a
-              >
-            </li>
-          </ul>
         </li>
       </ul>
     </div>
+  </div>
   </nav>
 </template>
 <script>
@@ -89,17 +72,19 @@ li {
   list-style: none;
 }
 .navbar {
-  padding-right: 60px;
+  padding: 0 60px;
+  height: 94px;
+  background-color: #54C3F1;
 }
 .nav-item {
-  padding-left: 20px;
-  i {
-    color: #168bf1;
-    margin-right: 8px;
+  padding-left: 8px;
+  .nav-link {
+    color: #fff;
+    font-size: 20px;
   }
 }
 .dropdown-toggle::after {
-  color: #168bf1;
+  /* color: #168bf1; */
 }
 .navbar-toggler {
   border: 1px solid #c4c4c4;
@@ -110,10 +95,10 @@ li {
     border-color: #666;
   }
 }
-.dropdown-menu.show {
+/* .dropdown-menu.show {
   min-width: 80px;
   margin-left: 12px;
   box-shadow: 2px 2px 0 0 rgba(102,102,102,0.25);
-}
+} */
 
 </style>
