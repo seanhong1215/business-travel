@@ -1,13 +1,17 @@
 <template>
+  <div>
   <section class="banner">
     <div class="banner-content-wrap">
       <h3 class="banner-title">小B商務旅行</h3>
       <p class="banner-desc">帶你深入探索有趣又獨特的旅遊體驗行程</p>
-      <button type="button" class="btn btn-primary">立即選購行程</button>
+      <button type="button" class="btn btn-primary btn-lg" @click="toIntro">
+        立即選購行程
+      </button>
+      <i class="bi bi-arrow-down"></i>
     </div>
   </section>
   <div class="container">
-    <section class="intro-wrap">
+    <section ref="intro" class="intro-wrap">
       <span class="intro-subtitle">有感生活 簡約踏實</span>
       <h3 class="intro-title">
         我們相信 難忘的旅遊行程<br />可以幫助人創造最真實的回憶
@@ -18,140 +22,35 @@
     </section>
     <section class="products">
       <div class="row g-0">
-        <div class="col-md-4">
+        <template v-for="item in products" :key="item.id">
+        <div class="col-md-4 product-feature">
           <swiper
             :modules="modules"
             class="mySwiper"
             :effect="'fade'"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
             :pagination="{
               clickable: true,
             }"
           >
             <swiper-slide
-              ><img src="@/assets/img/home/card-01.png" alt=""
+              >
+                <img :src="item.imageUrl" alt=""/>
+          </swiper-slide>
+            <swiper-slide
+              ><img :src="item.imageUrl" alt=""
             /></swiper-slide>
             <swiper-slide
-              ><img src="@/assets/img/home/card-02.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-03.png" alt=""
+              ><img :src="item.imageUrl" alt=""
             /></swiper-slide>
           </swiper>
+          
+          <div class="product-feature-text">
+            <small class="city-sub-name">{{ item.category }}</small>
+            <p class="city-name">{{ item.title }}</p>
+          </div>
+          <i class="like bi bi-heart-fill"></i>
         </div>
-        <div class="col-md-4">
-          <swiper
-            :pagination="true"
-            :modules="modules"
-            class="mySwiper"
-            :effect="'fade'"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-          >
-            <swiper-slide
-              ><img src="@/assets/img/home/card-04.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-05.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-06.png" alt=""
-            /></swiper-slide>
-          </swiper>
-        </div>
-        <div class="col-md-4">
-          <swiper
-            :pagination="true"
-            :modules="modules"
-            class="mySwiper"
-            :effect="'fade'"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-          >
-            <swiper-slide
-              ><img src="@/assets/img/home/card-01.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-02.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-03.png" alt=""
-            /></swiper-slide>
-          </swiper>
-        </div>
-        <div class="col-md-4">
-          <swiper
-            :pagination="true"
-            :modules="modules"
-            class="mySwiper"
-            :effect="'fade'"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-          >
-            <swiper-slide
-              ><img src="@/assets/img/home/card-04.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-05.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-06.png" alt=""
-            /></swiper-slide>
-          </swiper>
-        </div>
-        <div class="col-md-4">
-          <swiper
-            :pagination="true"
-            :modules="modules"
-            class="mySwiper"
-            :effect="'fade'"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-          >
-            <swiper-slide
-              ><img src="@/assets/img/home/card-01.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-02.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-03.png" alt=""
-            /></swiper-slide>
-          </swiper>
-        </div>
-        <div class="col-md-4">
-          <swiper
-            :pagination="true"
-            :modules="modules"
-            class="mySwiper"
-            :effect="'fade'"
-            :autoplay="{
-              delay: 2500,
-              disableOnInteraction: false,
-            }"
-          >
-            <swiper-slide
-              ><img src="@/assets/img/home/card-04.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-05.png" alt=""
-            /></swiper-slide>
-            <swiper-slide
-              ><img src="@/assets/img/home/card-06.png" alt=""
-            /></swiper-slide>
-          </swiper>
-        </div>
+      </template>
         <div class="col-md-6">
           <div class="cards">
             <div class="card-wrap">
@@ -166,13 +65,14 @@
         <div class="col-md-6">
           <!-- <div class="card"> -->
           <img
-            src="@/assets/img/home/card-07.png"
+            src="@/assets/img/homeCard-07.png"
             class="card-img-top"
             alt="..."
           />
           <!-- </div> -->
         </div>
       </div>
+      
     </section>
     <section class="about">
       <div class="about-wrap">
@@ -192,59 +92,27 @@
         navigation
       >
         <swiper-slide>
-          <img src="@/assets/img/home/recommend-01.png" alt="" />
+          <img src="@/assets/img/recommend-01.png" alt="" />
         </swiper-slide>
         <swiper-slide>
-          <img src="@/assets/img/home/recommend-02.png" alt="" />
+          <img src="@/assets/img/recommend-02.png" alt="" />
         </swiper-slide>
         <swiper-slide>
-          <img src="@/assets/img/home/recommend-03.png" alt="" />
+          <img src="@/assets/img/recommend-03.png" alt="" />
         </swiper-slide>
         <swiper-slide>
-          <img src="@/assets/img/home/recommend-01.png" alt="" />
+          <img src="@/assets/img/recommend-01.png" alt="" />
         </swiper-slide>
       </swiper>
     </section>
   </div>
-  <footer class="footer">
-    <div class="container">
-      <div class="subscription">
-        <h3 class="subscription-title">訂閱小B</h3>
-        <p class="subscription-desc">
-          立即訂閱小B 電子報! 有機會獲得用戶限定優惠及最新熱門景點旅行資訊!
-        </p>
-        <div class="input-group mb-3">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Enter your Email"
-            aria-label="Enter your Email"
-            aria-describedby="basic-addon2"
-          />
-          <span class="input-group-text" id="basic-addon2">訂閱</span>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="f-logo"
-        ><img src="@/assets/img/home/f-logo.svg" alt=""
-      /></span>
-      <div class="social-wrap">
-        <div class="fb"><img src="@/assets/img/home/FB.png" alt="" /></div>
-        <div class="ig"><img src="@/assets/img/home/IG.png" alt="" /></div>
-        <div class="yt"><img src="@/assets/img/home/YT.png" alt="" /></div>
-        <div class="line"><img src="@/assets/img/home/Line.png" alt="" /></div>
-      </div>
-      <p class="copy-right">@2023 Agnes.b sean.web.design</p>
-      <p>本網站僅供個人練習使用，無商業行為 | <a class="login-link" href="#">登入後台</a></p>
-    </div>
-  </footer>
+</div>
 </template>
-
 <script>
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectFade, Autoplay, Navigation, Pagination } from "swiper";
+import {apiProducts} from "@/utils/api.js"
 
 // Import Swiper styles
 import "swiper/css";
@@ -259,7 +127,10 @@ export default {
   },
   name: "HomeView",
   data() {
-    return { modules: [EffectFade, Autoplay, Navigation, Pagination] };
+    return { 
+      modules: [EffectFade, Autoplay, Navigation, Pagination],
+      products: ""
+    };
   },
   methods: {
     onSwiper(swiper) {
@@ -268,24 +139,51 @@ export default {
     onSlideChange() {
       console.log("slide change");
     },
+    toIntro() {
+      this.$refs["intro"].scrollIntoView(true);
+    },
   },
+  mounted(){
+    apiProducts().then((res => {
+      this.products = res.data.products
+      console.log(this.products);
+    }))
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .banner {
-  background-image: url("@/assets/img/home/banner.png");
+  background-image: url("@/assets/img/banner.png");
   width: 100%;
   height: 830px;
   background-size: cover;
 }
 .banner-content-wrap {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
   color: #fff;
+  i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    bottom: 20px;
+    font-size: 32px;
+    animation-name: MoveToBottom; /*動畫名稱，需與 keyframe 名稱對應*/
+    animation-duration: 2s; /*動畫持續時間，單位為秒*/
+    animation-delay: 1s; /*動畫延遲開始時間*/
+    animation-iteration-count: infinite; /*動畫次數，infinite 為無限次*/
+    transition-timing-function: ease-in-out;
+  }
+  @keyframes MoveToBottom {
+    // 0%{bottom: 10px}
+    // 100%{bottom: 0}
+  }
   .banner-title {
     font-size: 36px;
   }
@@ -295,6 +193,8 @@ export default {
 }
 .intro-wrap {
   padding: 60px 0;
+  text-align: center;
+
   .intro-subtitle {
     color: #999;
     font-size: 16px;
@@ -308,12 +208,12 @@ export default {
   .intro-desc {
     color: #2a2a2a;
     padding-top: 8px;
-    width: 50%;
+    width: 70%;
     margin: auto;
   }
 }
 .about {
-  background-image: url("@/assets/img/home/me.png");
+  background-image: url("@/assets/img/me.png");
   width: 100%;
   height: 340px;
   background-size: cover;
@@ -328,12 +228,13 @@ export default {
   color: #fff;
   padding: 60px;
   .about-title {
-    font-size: 36px;
+    font-size: 24px;
     padding-bottom: 16px;
   }
   .about-desc {
     font-size: 20px;
     text-align: left;
+    padding-bottom: 20px;
   }
   .btn {
     display: inline-block;
@@ -355,12 +256,43 @@ export default {
     height: 100%;
     margin: auto;
     .card-title {
-      font-size: 36px;
+      font-size: 32px;
       padding-bottom: 32px;
     }
     .card-desc {
       font-size: 20px;
     }
+  }
+}
+
+.product-feature{
+  position: relative;
+  // &:hover{
+  //   background-color: #000;
+  //   z-index: 2;
+  // }
+  .product-feature-text {
+    position: absolute;
+    z-index: 1;
+    bottom: 8px;
+    left: 8px;
+    .city-sub-name {
+      font-size: 16px;
+      color: #C9C9C9;
+    }
+    .city-name {
+      font-size: 20px;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+  }
+  .like {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    z-index: 1;
+    color: #f2f2f2;
+    font-size: 20px;
   }
 }
 
@@ -372,12 +304,23 @@ export default {
 .swiper-slide {
   text-align: center;
 }
-.swiper-pagination {
-  text-align: right;
+
+:deep(.products) {
+  .swiper-pagination {
+    text-align: right;
+    .swiper-pagination-bullet-active {
+      background: #f2f2f2;
+      width: 12px;
+      height: 12px;
+    }
+    .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      opacity: .5;
+    }
+  }
 }
-.swiper-pagination-bullet-active {
-  color: #f2f2f2;
-}
+
 .swiper-slide img {
   display: block;
   width: 100%;
@@ -391,6 +334,12 @@ export default {
   padding-bottom: 40px;
   font-weight: 600;
   font-size: 36px;
+  text-align: center;
+}
+:deep(.recommend) {
+  .swiper-button-prev,.swiper-button-next {
+    color: #000;
+  }
 }
 
 .footer {
@@ -409,7 +358,6 @@ export default {
     .input-group {
       width: 50%;
       margin: auto;
-      
     }
   }
   .footer-bottom {
@@ -419,7 +367,7 @@ export default {
       padding-bottom: 30px;
       position: relative;
       &::after {
-        content: '';
+        content: "";
         display: block;
         margin: auto;
         margin-top: 16px;

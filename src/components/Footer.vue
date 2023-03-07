@@ -20,13 +20,13 @@
     </div>
     <div class="footer-bottom">
       <span class="f-logo"
-        ><img src="@/assets/img/home/f-logo.svg" alt=""
+        ><img src="@/assets/img/f-logo.svg" alt=""
       /></span>
       <div class="social-wrap">
-        <div class="fb"><img src="@/assets/img/home/FB.png" alt="" /></div>
-        <div class="ig"><img src="@/assets/img/home/IG.png" alt="" /></div>
-        <div class="yt"><img src="@/assets/img/home/YT.png" alt="" /></div>
-        <div class="line"><img src="@/assets/img/home/Line.png" alt="" /></div>
+        <div class="fb"><img src="@/assets/img/FB.png" alt="" /></div>
+        <div class="ig"><img src="@/assets/img/IG.png" alt="" /></div>
+        <div class="yt"><img src="@/assets/img/YT.png" alt="" /></div>
+        <div class="line"><img src="@/assets/img/Line.png" alt="" /></div>
       </div>
       <p class="copy-right">@2023 Agnes.b sean.web.design</p>
       <p>本網站僅供個人練習使用，無商業行為 | <a class="login-link" href="#">登入後台</a></p>
@@ -72,6 +72,9 @@
     .f-logo {
       padding-bottom: 30px;
       position: relative;
+      img{
+        width: auto;
+      }
       &::after {
         content: '';
         display: block;

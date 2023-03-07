@@ -5,16 +5,31 @@ const routes = [
     path: "/",
     component: () => import("../views/HomeView.vue"),
   },
-  // {
-  //   path: "/step-2-payment",
-  //   name: "payment",
-  //   component: () => import("../views/PaymentView.vue"),
-  // },
-  // {
-  //   path: "/step-3-order-confirmation",
-  //   name: "order-confirmation",
-  //   component: () => import("../views/OrderConfirm.vue"),
-  // },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("../views/AboutView.vue"),
+  },
+  {
+    path: "/products",
+    name: "products",
+    component: () => import("../views/Products.vue"),
+  },
+  {
+    path: "/favorite",
+    name: "favorite",
+    component: () => import("../views/FavoriteList.vue"),
+  },
+  {
+    path: "/products",
+    name: "products",
+    component: () => import("../views/Products.vue"),
+  },
+  {
+    path: "/shoppingCart",
+    name: "shoppingCart",
+    component: () => import("../views/ShoppingCart.vue"),
+  },
 ];
 
 const router = createRouter({

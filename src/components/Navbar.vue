@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="@/assets/img/home/logo.svg" alt=""></a>
+    <router-link class="navbar-brand" :to="{path: '/'}"><img src="@/assets/img/logo.svg" alt="logo"></router-link> 
     <button
       class="navbar-toggler btn-sm"
       type="button"
@@ -16,24 +16,16 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a href="#" class="nav-link" aria-current="page"
-            >關於我們</a
-          >
+          <router-link class="nav-link" :to="{path: '/about'}">關於我們</router-link> 
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link"
-            >旅遊規劃</a
-          >
+          <router-link class="nav-link" :to="{path: '/products'}">旅遊規劃</router-link> 
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link"
-            ><i class="bi bi-heart-fill"></i></a
-          >
+          <router-link class="nav-link" :to="{path: '/favorite'}"><i class="bi bi-heart-fill"></i></router-link> 
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link"
-            ><i class="bi bi-cart-fill"></i></a
-          >
+          <router-link class="nav-link" :to="{path: '/ShoppingCart'}"><i class="bi bi-cart-fill"></i></router-link> 
         </li>
       </ul>
     </div>
@@ -95,10 +87,8 @@ li {
     border-color: #666;
   }
 }
-/* .dropdown-menu.show {
-  min-width: 80px;
-  margin-left: 12px;
-  box-shadow: 2px 2px 0 0 rgba(102,102,102,0.25);
-} */
+.navbar-nav .show > .nav-link, .navbar-nav .nav-link.active {
+  color: #2588B0;
+}
 
 </style>
