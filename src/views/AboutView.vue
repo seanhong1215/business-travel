@@ -72,6 +72,7 @@ export default {
 }
 .about-wrap {
   padding: 60px 0;
+  text-align: center;
   .about-title {
     color: #2a2a2a;
     font-weight: 600;

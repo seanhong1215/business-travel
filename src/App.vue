@@ -1,18 +1,22 @@
 <template>
-  <div>
   <navbar />
   <router-view />
-  <footerView />
-</div>
+  <footer-view />
 </template>
 <script>
-import navbar from '@/components/Navbar.vue';
-import footerView from '@/components/Footer.vue';
+import Navbar from '@/components/Navbar.vue';
+import FooterView from '@/components/Footer.vue';
+import emitter from '@/library/emitter.js';
+
 export default {
-  components: {navbar, footerView},
+  components: {Navbar, FooterView},
+  provide () {
+    return {
+      emitter
+    }
+  }
 };
 </script>
 <style lang="scss">
-@import "bootstrap/scss/bootstrap";
-@import "@/assets/base.scss";
+@import "@/assets/all.scss";
 </style>
