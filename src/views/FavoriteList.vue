@@ -6,11 +6,11 @@
         <h3 class="banner-title">收藏列表</h3>
       </div>
     </section>
-    <div class="container-fluid p-0">
+    <div class="container">
       <section class="products">
-        <div class="row g-0">
+        <div class="row g-0 py-4">
           <template v-for="item in favoritesList" :key="item.id">
-            <div class="col-md-4 product-feature">
+            <div class="col-md-4 product-feature my-3 mx-3">
               <img :src="item.imageUrl" alt="product-img" />
               <div class="product-feature-btn">
                 <button
@@ -18,14 +18,10 @@
                   button
                   type="button"
                   class="btn btn-primary btn-lg"
-                  @click="$router.push({ path: '/products' })"
+                  @click="$router.push({ path: `/productList/${item.id}` })"
                 >
                   查看商品
                 </button>
-              </div>
-              <div class="product-feature-text">
-                <small class="city-sub-name">{{ item.category }}</small>
-                <p class="city-name">{{ item.title }}</p>
               </div>
               <a href="#" class="like" @click.prevent="toggleFavorite(item.id)">
                 <span v-if="favorite.includes(item.id)">
@@ -36,6 +32,10 @@
                 </span>
                 <i v-else class="bi bi-suit-heart"></i>
               </a>
+              <div class="product-feature-text">
+                <small class="city-sub-name">{{ item.category }}</small>
+                <p class="city-name">{{ item.title }}</p>
+              </div>
             </div>
           </template>
         </div>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { apiProducts } from "@/utils/api.js";
+import { apiGetProducts } from "@/utils/api.js";
 
 export default {
   name: "FavoriteList",
@@ -54,68 +54,62 @@ export default {
       products: [],
       favoritesList: [],
       isLoading: false,
-      id: '',
+      id: "",
       favorite: JSON.parse(localStorage.getItem("favorite")) || [],
     };
   },
   methods: {
     getProducts() {
       this.isLoading = true;
-      apiProducts()
+      apiGetProducts()
         .then((res) => {
           this.products = res.data.products;
           this.getFavorites();
           this.isLoading = false;
         })
         .catch((error) => {
-          console.log(error);
-          // this.emitter.emit('push-message', {
-          //   style: 'danger',
-          //   title: '找不到收藏清單',
-          //   content: error.response.data.message
-          // })
+          this.$swal.fire({
+          icon: "danger",
+          title: "找不到收藏清單",
+        });
         });
     },
     getFavorites() {
       this.favoritesList = this.products.filter(
         (item) => this.favorite.indexOf(item.id) > -1
       );
-      console.log(this.favoritesList)
     },
-    toggleFavorite (id) {
-      console.log(id)
+    toggleFavorite(id) {
       // findIndex 尋找陣列中符合對象並返回index 若沒有合適的會回傳-1
-      const favoriteIndex = this.favorite.findIndex((item) => item === id)
+      const favoriteIndex = this.favorite.findIndex((item) => item === id);
       if (favoriteIndex === -1) {
-        this.favorite.push(id)
-        console.log(this.favorite);
-        // this.emitter.emit('push-message', {
-        //   style: 'success',
-        //   title: '已加入收藏'
-        // })
+        this.favorite.push(id);
+        this.$swal.fire({
+          icon: "success",
+          title: "已加入收藏",
+        });
       } else {
-        this.favorite.splice(favoriteIndex, 1)
-        console.log(this.favorite);
-        // this.emitter.emit('push-message', {
-        //   style: 'success',
-        //   title: '已移除收藏'
-        // })
+        this.favorite.splice(favoriteIndex, 1);
+        this.$swal.fire({
+          icon: "success",
+          title: "已移除收藏",
+        });
+        this.getFavorites();
       }
-    }
+    },
   },
   watch: {
     favorite: {
-      handler () {
+      handler() {
         // 當資料有變動時就進行寫入
-        localStorage.setItem('favorite', JSON.stringify(this.favorite))
+        localStorage.setItem("favorite", JSON.stringify(this.favorite));
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.getProducts();
   },
-  
 };
 </script>
 
@@ -124,16 +118,41 @@ export default {
   background-image: url("@/assets/img/favorite.png");
 }
 
-.product-feature{
+.product-feature {
+  background-color: #fff;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+  height: max-content;
+  border-radius: 4px;
+  max-width: 30.866%;
   img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      &:hover {
-        opacity: 0.5;
-      }
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+  .product-feature-text {
+    text-align: center;
+    position: static;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding: 8px 0;
+    .city-sub-name {
+      font-size: 20px;
+      color: #5f5f5f;
+    }
+    .city-name {
+      font-size: 24px;
+      color: #2a2a2a;
+      font-weight: 600;
+    }
+  }
+  .product-feature-btn {
+    top:40%;
   }
 }
-
 </style>

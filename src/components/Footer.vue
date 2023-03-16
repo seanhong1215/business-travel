@@ -29,8 +29,9 @@
         <div class="line"><img src="@/assets/img/Line.png" alt="" /></div>
       </div>
       <p class="copy-right">@2023 Agnes.b sean.web.design</p>
-      <p>本網站僅供個人練習使用，無商業行為 | <a class="login-link" href="#">登入後台</a></p>
+      <p>本網站僅供個人練習使用，無商業行為 | <router-link :to="{path: '/login'}" class="login-link">登入後台</router-link></p>
     </div>
+    <div><button type="button" class="goTop btn btn-primary" v-if="scY > 300" @click="toTop"><i class="bi bi-arrow-up"></i></button></div>
   </footer>
   </template>
   <script>
@@ -38,12 +39,33 @@
   export default {
     name: "Footer",
     data() {
-      return {
-      };
+    return {
+      scTimer: 0,
+      scY: 0,
+    };
+  },
+  methods: {
+    handleScroll() {
+      if (this.scTimer) return;
+      this.scTimer = setTimeout(() => {
+        this.scY = window.scrollY;
+        clearTimeout(this.scTimer);
+        this.scTimer = 0;
+      }, 100);
     },
-    methods: {
- 
-    },
+    toTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+  },
+  // unmounted() {
+  //   window.removeEventListener('scroll', this.handleScroll);
+  // },
   };
   </script>
   <style lang="scss" scoped>
@@ -51,6 +73,22 @@
   background-color: #2a2a2a;
   color: #fff;
   text-align: center;
+  position: relative;
+  .goTop {
+  position: fixed;
+  z-index: 100;
+  right: 30px;
+  bottom: 30px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+  i{
+    margin-left: 2px;
+  }
+}
   .subscription {
     padding: 40px 0;
     .subscription-title {
@@ -99,6 +137,9 @@
     }
     .login-link {
       color: #f2f2f2;
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 }

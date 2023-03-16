@@ -10,11 +10,7 @@
       <div class="products-wrap">
         <div class="row g-5">
           <div class="col-md-4">
-            <div
-              class="list-group"
-              id="list-tab"
-              role="tablist"
-            >
+            <div class="list-group" id="list-tab" role="tablist">
               <a
                 class="list-group-item list-group-item-action"
                 id="list-home-list"
@@ -98,19 +94,25 @@
             <template v-for="item in products" :key="item.id">
               <div class="card mb-3">
                 <div class="row g-0">
-                  <div class="col-md-4 product-feature">
+                  <div
+                    class="col-md-4 product-feature"
+                    @click="$router.push({ path: `/productList/${item.id}` })"
+                  >
                     <img
                       :src="item.imageUrl"
                       class="img-fluid rounded-start h-100"
-                      alt="..."
                     />
-                    <a href="#" class="like"
-                     @click.prevent="toggleFavorite(item.id)">
-                    <span v-if="favorite.includes(item.id)">
-                      <i v-if="favorite.includes(item.id)" class="bi bi-suit-heart-fill"></i>
-                    </span>
-                    <i v-else class="bi bi-suit-heart"></i>
-                  </a>
+                    <div class="product-feature-btn">
+                      <button
+                        ref="product-detail"
+                        button
+                        type="button"
+                        class="btn btn-primary text-white"
+                        @click="$router.push({ path: '/productList' })"
+                      >
+                        查看商品
+                      </button>
+                    </div>
                   </div>
                   <div class="col-md-8">
                     <div class="card-body d-flex flex-column h-100">
@@ -119,35 +121,49 @@
                         {{ item.description }}
                       </p>
                       <p
-                        class="card-text d-flex justify-content-between mt-auto"
+                        class="card-text d-flex justify-content-between mt-auto pt-4"
                       >
-                        <small class="text-muted">{{ item.title }}</small>
-                        <small class="text-muted">NT${{ item.price }}</small>
+                        <del class="text-muted"
+                          >NT${{ item.price }}</del
+                        >
+                        <small class="text-muted">NT${{ item.origin_price }}</small>
                       </p>
+                      <button
+                        type="button"
+                        class="btn btn-primary w-100 text-white mt-2"
+                        :disabled="
+                          loadingStatus.loadingItem === item.id ||
+                          !item.is_enabled
+                        "
+                        @click="addCart(item.id)"
+                      >
+                        加入購物車
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             </template>
-            <pagination :pages="pagination" @emit-pages="getProducts"></pagination>
-
+            <pagination
+              :pages="pagination"
+              @emit-pages="getProducts"
+            ></pagination>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import Pagination from "@/components/Pagination.vue";
-// import emitter from '@/library/emitter.js';
+import cartStroe from '../store/cartStore';
+import { mapActions } from 'pinia';
 
 export default {
   name: "Products",
   components: {
     Pagination,
   },
-  // inject: ['emitter'],
   data() {
     return {
       products: [],
@@ -155,70 +171,99 @@ export default {
       isLoading: false,
       currentPage: 1,
       category: "",
-      isActive: '',
-      id: '',
-      productId: '',
+      isActive: "",
+      loadingStatus: {
+        loadingItem: "",
+      },
       // 從localStorage中取出的資料 必須給予預設值
-      favorite: JSON.parse(localStorage.getItem('favorite')) || []
-    }
+      favorite: JSON.parse(localStorage.getItem("favorite")) || [],
+    };
   },
   methods: {
     getProducts(page = 1, category) {
-      this.isActive = category
+      this.isActive = category;
       this.currentPage = page;
       this.isLoading = true;
       let api = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
       }/products?page=${page}`;
       if (category) {
-        api = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/products?category=${category}`
+        api = `${import.meta.env.VITE_API}/api/${
+          import.meta.env.VITE_PATH
+        }/products?category=${category}`;
       } else {
-        this.isActive = 'all'
+        this.isActive = "all";
       }
       this.$http
-        .get(api).then((res) => {
-        this.products = res.data.products;
-        this.pagination = res.data.pagination;
-        this.isLoading = false;
-      })
-      .catch((err) => {
+        .get(api)
+        .then((res) => {
+          this.products = res.data.products;
+          this.pagination = res.data.pagination;
           this.isLoading = false;
-          console.log(err.response.data.message)
-          // this.$swal.fire({
-          //   icon: "error",
-          //   title: err.response.data.message,
-          // });
+        })
+        .catch((err) => {
+          this.isLoading = false;
+          this.$swal.fire({
+            icon: "error",
+            title: err.response.data.message,
+          });
         });
     },
-    toggleFavorite (id) {
-      console.log(id)
+    toggleFavorite(id) {
       // findIndex 尋找陣列中符合對象並返回index 若沒有合適的會回傳-1
-      const favoriteIndex = this.favorite.findIndex((item) => item === id)
+      const favoriteIndex = this.favorite.findIndex((item) => item === id);
       if (favoriteIndex === -1) {
-        this.favorite.push(id)
-        console.log(this.favorite);
-        // this.emitter.emit('push-message', {
-        //   style: 'success',
-        //   title: '已加入收藏'
-        // })
+        this.favorite.push(id);
+        this.$swal.fire({
+          icon: "success",
+          title: "已加入收藏",
+        });
       } else {
-        this.favorite.splice(favoriteIndex, 1)
-        console.log(this.favorite);
-        // this.emitter.emit('push-message', {
-        //   style: 'success',
-        //   title: '已移除收藏'
-        // })
+        this.favorite.splice(favoriteIndex, 1);
+        this.$swal.fire({
+          icon: "success",
+          title: "已移除收藏",
+        });
+        this.getFavorites();
       }
-    }
+    },
+    addCart(id, qty = 1) {
+      this.loadingStatus.loadingItem = id;
+      const cart = {
+        product_id: id,
+        qty,
+      };
+      const api = `${import.meta.env.VITE_API}/api/${
+        import.meta.env.VITE_PATH
+      }/cart`;
+      this.$http
+        .post(api, { data: cart })
+        .then((response) => {
+          this.$swal.fire({
+            icon: "success",
+            title: response.data.message,
+          });
+          this.getCarts();
+          this.loadingStatus.loadingItem = "";
+        })
+        .catch((err) => {
+          this.$swal.fire({
+            icon: "error",
+            title: err.response.data.message,
+          });
+        });
+    },
+    ...mapActions(cartStroe, ['getCarts']),
   },
+  
   watch: {
     favorite: {
-      handler () {
+      handler() {
         // 當資料有變動時就進行寫入
-        localStorage.setItem('favorite', JSON.stringify(this.favorite))
+        localStorage.setItem("favorite", JSON.stringify(this.favorite));
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   mounted() {
     this.getProducts();
@@ -244,6 +289,7 @@ export default {
 }
 .product-feature {
   position: relative;
+  cursor: pointer;
   .like {
     position: absolute;
     right: 8px;

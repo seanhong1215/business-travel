@@ -16,7 +16,9 @@ $gray-600: #6c757d !default;
 $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
-$black:    #000 !default;
+
+// black-color is 000
+$black:    #fff !default;
 // scss-docs-end gray-color-variables
 
 // fusv-disable
@@ -36,7 +38,7 @@ $grays: (
 // fusv-enable
 
 // scss-docs-start color-variables
-$blue:    #168bf1 !default;
+$blue:    #54C3F1 !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #d63384 !default;

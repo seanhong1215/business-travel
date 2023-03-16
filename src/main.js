@@ -6,7 +6,11 @@ import 'vue3-loading-overlay/dist/vue3-loading-overlay.css';
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import i18n from './i18n';
+import { createPinia } from 'pinia'
+
+//引入SweetAlert及其附帶的css
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 import {
   Form, Field, ErrorMessage, defineRule, configure,
@@ -17,6 +21,9 @@ import AllRules from '@vee-validate/rules';
 import { localize, setLocale } from '@vee-validate/i18n';
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
 import en from '@vee-validate/i18n/dist/locale/en.json';
+
+import $httpMessageState from '@/methods/pushMessageState.js';
+import {date, currency} from '@/methods/filters.js';
 
 import App from './App.vue';
 import router from './router';
@@ -33,10 +40,21 @@ configure({
 // 設定預設語系
 setLocale('zhTW');
 
+
+const pinia = createPinia();
 const app = createApp(App);
+
+app.config.globalProperties.$filters = {
+  date,
+  currency,
+};
+
+app.config.globalProperties.$httpMessageState = $httpMessageState;
+
 app.use(router);
+app.use(pinia);
 app.use(VueAxios, axios);
-app.use(i18n);
+app.use(VueSweetalert2);
 app.component('Loading', Loading);
 app.component('Form', Form);
 app.component('Field', Field);
