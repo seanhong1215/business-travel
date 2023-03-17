@@ -1,4 +1,5 @@
 <template>
+    <Loading :active="isLoading" :z-index="1000"></Loading>
     <section class="banner">
       <div class="banner-content-wrap">
         <h3 class="banner-title">產品列表</h3>
@@ -121,6 +122,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       paramId: "",
       product: {},
       loadingStatus: {

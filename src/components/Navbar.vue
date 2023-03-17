@@ -1,21 +1,14 @@
 <template>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar sticky-top navbar-expand-lg">
     <div class="container-fluid">
       <router-link class="navbar-brand" :to="{ path: '/' }">
         <img src="@/assets/img/logo.svg" alt="logo"/>
       </router-link>
-      <button
-        class="navbar-toggler btn-sm"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <button class="navbar-toggler btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+      <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
             <router-link class="nav-link" :to="{ path: '/about' }">關於我們</router-link>
@@ -209,9 +202,10 @@ ul,
 li {
   list-style: none;
 }
+.container-fluid{
+  padding: 4px 60px;
+}
 .navbar {
-  padding: 0 60px;
-  height: 94px;
   background-color: #54c3f1;
 }
 .nav-item {
@@ -236,6 +230,9 @@ li {
 .navbar-nav .show > .nav-link,
 .navbar-nav .nav-link.active {
   color: #2588b0;
+}
+.collapse {
+  background: #54c3f1;
 }
 .offcanvas-body {
   .delete {

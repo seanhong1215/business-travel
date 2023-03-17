@@ -26,7 +26,7 @@
 
   .banner {
     width: 100%;
-    height: 392px;
+    height: 280px;
     background-size: cover;
     .banner-content-wrap {
       color: #fff;
@@ -105,18 +105,18 @@
 
 .order-process-btn{
   button {
-    cursor: initial;
-    &:hover {
-      background-color: transparent;
-      color: #54C3F1;
+    cursor: unset !important;
+    &:hover, &:active {
+      background-color: transparent !important;
+      color: #54C3F1 !important;
     }
   }
   button.active {
     background-color: #54C3F1;
     border-color: #54C3F1;
-    &:hover {
-      background-color: #54C3F1;
-      color: #fff;
+    &:hover, &:active {
+      background-color: #54C3F1 !important;
+      color: #fff !important;
     }
   }
 }

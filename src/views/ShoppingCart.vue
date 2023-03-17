@@ -244,4 +244,9 @@ export default {
     font-size: 20px;
   }
 }
+.input-group button{
+  &:hover{
+    opacity: 0.7;
+  }
+}
 </style>

@@ -23,6 +23,7 @@
           <div class="order-check">
             <i class="bi bi-check-circle-fill"></i>
           </div>
+          <p>您已經完成訂單，訂單資訊已寄到Email信箱!!</p>
           <button button type="button" class="btn btn-primary mt-4" @click="$router.push({ path: '/' })">
         回到首頁
       </button>

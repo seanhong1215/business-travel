@@ -36,14 +36,9 @@
             }"
           >
             <swiper-slide
-              ><img :src="item.imageUrl" alt="product-img"
+              >
+              <img :src="item.imageUrl" alt="product-img"
             /></swiper-slide>
-            <!-- <swiper-slide
-              ><img :src="item.imageUrl" alt="product-img"
-            /></swiper-slide>
-            <swiper-slide
-              ><img :src="item.imageUrl" alt="product-img"
-            /></swiper-slide> -->
           </swiper>
           <div class="product-feature-btn">
             <button
@@ -186,8 +181,9 @@ export default {
 <style lang="scss" scoped>
 .banner {
   background-image: url("@/assets/img/banner.png");
+  background-color: #000;
   width: 100%;
-  height: 830px;
+  height: 831px;
   background-size: cover;
 }
 .banner-content-wrap {
@@ -205,21 +201,15 @@ export default {
     margin: auto;
     bottom: 20px;
     font-size: 32px;
-    animation-name: MoveToBottom; /*動畫名稱，需與 keyframe 名稱對應*/
-    animation-duration: 2s; /*動畫持續時間，單位為秒*/
-    animation-delay: 1s; /*動畫延遲開始時間*/
-    animation-iteration-count: infinite; /*動畫次數，infinite 為無限次*/
-    transition-timing-function: ease-in-out;
   }
-  @keyframes MoveToBottom {
-    // 0%{bottom: 10px}
-    // 100%{bottom: 0}
-  }
+
   .banner-title {
     font-size: 36px;
+    font-weight: bold;
   }
   .banner-desc {
     font-size: 24px;
+    font-weight: bold;
   }
 }
 .intro-wrap {

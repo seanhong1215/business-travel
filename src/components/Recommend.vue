@@ -2,9 +2,19 @@
  <section class="recommend container">
       <h3 class="recommend-title">獨特旅遊景點</h3>
       <swiper
-      :slides-per-view="3"
+      class="mySwiper"
+      :slides-per-view="1"
       :space-between="30"
       :modules="modules"
+      :autoplay="{
+        delay: 2500,
+        disableOnInteraction: false
+      }"
+      :breakpoints="{
+         '768': {
+        slidesPerView: 3,
+        },
+        }"
       navigation
       >
         <swiper-slide>

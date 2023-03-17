@@ -1,5 +1,4 @@
 <template>
-  <div>
     <Loading :active="isLoading" :z-index="1000"></Loading>
     <section class="banner">
       <div class="banner-content-wrap">
@@ -152,7 +151,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 import Pagination from "@/components/Pagination.vue";
@@ -290,6 +288,15 @@ export default {
 .product-feature {
   position: relative;
   cursor: pointer;
+  img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        &:hover {
+          opacity: 0.5;
+        }
+      }
   .like {
     position: absolute;
     right: 8px;
