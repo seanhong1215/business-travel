@@ -30,7 +30,7 @@
               aria-controls="offcanvasRight"
             >
               <i class="bi bi-cart-fill"></i>
-              <span class="badge rounded-pill bg-danger text-white ms-1">{{ length }}</span>
+              <span class="badge rounded-pill bg-danger text-white ms-1">{{ length }}</span> 
             </a>
           </li>
         </ul>
@@ -52,8 +52,8 @@
         aria-label="Close"
       ></button>
     </div>
-    <h4 class="p-3" v-if="length === 0">購物車沒有任何品項</h4>
-    <div class="offcanvas-body" v-if="length !== 0">
+    
+    <div v-if="length !== 0" class="offcanvas-body">
       <div class="card mb-3" v-for="item in cart.carts" :key="item.id">
         <div class="row g-0">
           <div class="col-md-2">
@@ -63,11 +63,15 @@
               <h5 class="card-title">{{item.product.title}}</h5>
           </div>
           <div class="col-md-2 input-space">
-              <div class="d-flex align-center justify-content-center">
-                <select v-model.number="item.qty" class="form-select" :value="item.qty" 
-                @change="() => selectCartQty(item.id, item.qty)">
-                <option :value="i" v-for="i in 20" :key="i">{{ i }}</option>
-              </select>
+              <div class="input-group d-flex align-center justify-content-center">
+                <input
+                        v-model.number="item.qty"
+                        :disabled="true"
+                        min="1"
+                        type="text"
+                        class="form-control"
+                      />
+                     
               </div>
           </div>
           <div class="col-md-3 input-space">
@@ -89,111 +93,25 @@
       <button class="btn btn-outline-danger" @click="deleteProducts">清空購物車</button>
       </div>
     </div>
+    <div v-else class="offcanvas-body">
+      <h4 class="p-3">購物車沒有任何品項</h4>
+    </div>
   </div>
 </template>
 <script>
-import { apiGetCart } from "@/utils/api";
-// import cartStroe from '../store/cartStore';
-// import { mapActions } from 'pinia';
+import cartStroe from '../store/cartStore';
+import { mapActions, mapState } from 'pinia';
+
 export default {
   name: "Navbar",
-  data() {
-    return {
-      isLoading: false,
-      cart: {},
-      length: 0,
-      currentCart: 1
-    };
-  },
   methods: {
-    getCarts() {
-      this.isLoading = true;
-      apiGetCart()
-        .then((res) => {
-          this.cart = res.data.data;
-          this.isLoading = false;
-          this.length = this.cart.carts.length
-        })
-        .catch((err) => {
-          this.isLoading = false;
-          this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
-    // ...mapActions(cartStroe, ['getCarts']),
-    delProduct(id) {
-      this.isLoading = true;
-      this.$http
-        .delete(
-          `${import.meta.env.VITE_API}/api/${
-            import.meta.env.VITE_PATH
-          }/cart/${id}`
-        )
-        .then(() => {
-          this.isLoading = false;
-          this.getCarts();
-          this.$swal.fire({
-            icon: "success",
-            title: "刪除產品成功",
-          });
-        })
-        .catch((err) => {
-          this.isLoading = false;
-          this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
-    deleteProducts(){
-      this.isLoading = true;
-      this.$http
-        .delete(
-          `${import.meta.env.VITE_API}/api/${
-            import.meta.env.VITE_PATH
-          }/carts`
-        )
-        .then(() => {
-          this.isLoading = false;
-          this.getCarts();
-          this.$swal.fire({
-            icon: "success",
-            title: "刪除產品成功",
-          });
-        })
-        .catch((err) => {
-          this.isLoading = false;
-          this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
-    selectCartQty(id, qty){
-      const api = `${import.meta.env.VITE_API}/api/${
-        import.meta.env.VITE_PATH
-      }/cart/${id}`;
-      const cart = {
-        product_id: id,
-        qty,
-      };
-      this.$http
-        .put(api, { data: cart })
-        .then(() => {
-          this.isLoading = false;
-          this.$swal.fire({
-            icon: "success",
-            title: "更新數量",
-          });
-        })
-        this.getCarts();
-    },
+    ...mapActions(cartStroe, ['getCart','delProduct','deleteProducts','selectCartQty']),
   },
-  
+  computed: {
+    ...mapState(cartStroe, ['cart','length']),
+  },
   mounted() {
-    this.getCarts();
+    this.getCart();
   },
 };
 </script>

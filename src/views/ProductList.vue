@@ -81,13 +81,10 @@
             <div class="input-group mb-3">
               <label for="select-num">請選擇人數</label>
               <div class="input-group">
-                <select
-                  class="form-select"
-                  aria-label="Default select example"
-                  id="select-num"
-                >
+                <select class="form-select" v-model.number="qty"
+                @change="(evt) => selectCartNum(evt)">
                 <option :value="i" v-for="i in 20" :key="i">{{ i }}</option>
-                </select>
+              </select>
               </div>
             </div>
             <div class="input-text">
@@ -101,7 +98,7 @@
             :disabled="
               loadingStatus.loadingItem === product.id || !product.is_enabled
             "
-            @click="addCart(product.id)"
+            @click="addToCarts(product.id)"
           >
             加入購物車
           </button>
@@ -113,8 +110,9 @@
 <script>
 import Recommend from '@/components/Recommend.vue'
 import cartStroe from '../store/cartStore';
-import { mapActions } from 'pinia';
-
+import productsStore from '../store/productsStore';
+import { mapState, mapActions } from 'pinia';
+import {apiAddToCart} from '@/utils/api';
 export default {
   name: "ProductList",
   components: {
@@ -122,43 +120,29 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
+      qty: 1,
       paramId: "",
-      product: {},
       loadingStatus: {
         loadingItem: "",
       },
     };
   },
   methods: {
-    getProduct(id) {
-      this.isLoading = true;
-      const api = `${import.meta.env.VITE_API}/api/${
-        import.meta.env.VITE_PATH
-      }/product/${id}`;
-      this.$http.get(api).then((res) => {
-        this.product = res.data.product;
-        this.isLoading = false;
-      });
+    selectCartNum(event){
+      this.qty = event.target.value * 1;
     },
-    addCart(id, qty = 1) {
-      this.loadingStatus.loadingItem = id;
+    addToCart(id) {
       const cart = {
         product_id: id,
-        qty,
+        qty: this.qty,
       };
-      const api = `${import.meta.env.VITE_API}/api/${
-        import.meta.env.VITE_PATH
-      }/cart`;
-      this.$http
-        .post(api, { data: cart })
+      apiAddToCart({ data: cart })
         .then((response) => {
           this.$swal.fire({
             icon: "success",
             title: response.data.message,
           });
-          this.getCarts();
-          this.loadingStatus.loadingItem = "";
+          this.getCart();
         })
         .catch((err) => {
           this.$swal.fire({
@@ -167,14 +151,17 @@ export default {
           });
         });
     },
-    ...mapActions(cartStroe, ['getCarts']),
-
+    ...mapActions(cartStroe, ['getCart']),
+    ...mapActions(productsStore, ['getProductId']),
+  },
+  computed: {
+    ...mapState(productsStore, ['product','isLoading']),
+    ...mapState(cartStroe, ['cart']),
   },
   mounted() {
     this.paramId = this.$route.params.id;
-    this.getProduct(this.paramId);
+    this.getProductId(this.paramId);
   },
-
 };
 </script>
 

@@ -107,8 +107,9 @@
 // Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { EffectFade, Autoplay, Navigation, Pagination } from "swiper";
-import { apiGetProducts } from "@/utils/api.js";
 import Recommend from "@/components/Recommend.vue";
+import productsStore from '../store/productsStore';
+import { mapState, mapActions } from 'pinia';
 
 // Import Swiper styles
 import "swiper/css";
@@ -125,11 +126,8 @@ export default {
   name: "HomeView",
   data() {
     return {
-      modules: [EffectFade, Autoplay, Navigation, Pagination],
-      products: "",
       isLoading: false,
-      id: "",
-      productId: "",
+      modules: [EffectFade, Autoplay, Navigation, Pagination],
       favorite: JSON.parse(localStorage.getItem("favorite")) || [],
     };
   },
@@ -137,31 +135,10 @@ export default {
     toIntro() {
       this.$refs["intro"].scrollIntoView(true);
     },
-    getProducts() {
-      this.isLoading = true;
-      apiGetProducts().then((res) => {
-        this.products = res.data.products;
-        this.isLoading = false;
-      });
-    },
-    toggleFavorite(id) {
-      // findIndex 尋找陣列中符合對象並返回index 若沒有合適的會回傳-1
-      const favoriteIndex = this.favorite.findIndex((item) => item === id);
-      if (favoriteIndex === -1) {
-        this.favorite.push(id);
-        this.$swal.fire({
-          icon: "success",
-          title: "已加入收藏",
-        });
-      } else {
-        this.favorite.splice(favoriteIndex, 1);
-        this.$swal.fire({
-          icon: "success",
-          title: "已移除收藏",
-        });
-        this.getFavorites();
-      }
-    },
+    ...mapActions(productsStore, ['getProducts', 'toggleFavorite']),
+  },
+  computed: {
+    ...mapState(productsStore, ['products']),
   },
   watch: {
     favorite: {
@@ -213,7 +190,7 @@ export default {
   }
 }
 .intro-wrap {
-  padding: 60px 0;
+  padding: 80px 0;
   text-align: center;
 
   .intro-subtitle {

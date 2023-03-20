@@ -123,7 +123,7 @@ export default {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
   height: max-content;
   border-radius: 4px;
-  max-width: 30.866%;
+  max-width: 30.4%;
   img {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;

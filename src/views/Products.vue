@@ -1,5 +1,6 @@
 <template>
     <Loading :active="isLoading" :z-index="1000"></Loading>
+    <ToastMessages></ToastMessages>
     <section class="banner">
       <div class="banner-content-wrap">
         <h3 class="banner-title">旅遊規劃</h3>
@@ -18,7 +19,7 @@
                 href="#list-all"
                 role="tab"
                 aria-controls="list-all"
-                @click="getProducts(1)"
+                @click="getProductSort(1)"
                 >全部</a
               >
               <a
@@ -29,7 +30,7 @@
                 href="#list-island"
                 role="tab"
                 aria-controls="list-island"
-                @click="getProducts(1, '海')"
+                @click="getProductSort(1, '海')"
                 >聖托里尼島</a
               >
               <a
@@ -40,7 +41,7 @@
                 href="#list-blueSpa"
                 role="tab"
                 aria-controls="list-blueSpa"
-                @click="getProducts(1, '自然與冒險')"
+                @click="getProductSort(1, '自然與冒險')"
                 >藍湖溫泉</a
               >
               <a
@@ -51,7 +52,7 @@
                 href="#list-kyoto"
                 role="tab"
                 aria-controls="list-kyoto"
-                @click="getProducts(1, '歷史文化')"
+                @click="getProductSort(1, '歷史文化')"
                 >京都美山町</a
               >
               <a
@@ -62,7 +63,7 @@
                 href="#list-maldives"
                 role="tab"
                 aria-controls="list-maldives"
-                @click="getProducts(1, '家庭海灘')"
+                @click="getProductSort(1, '家庭海灘')"
                 >馬爾地夫</a
               >
               <a
@@ -73,7 +74,7 @@
                 href="#list-portugal"
                 role="tab"
                 aria-controls="list-portugal"
-                @click="getProducts(1, '異國情調的海灘')"
+                @click="getProductSort(1, '異國情調的海灘')"
                 >葡萄牙</a
               >
               <a
@@ -84,7 +85,7 @@
                 href="#list-newYork"
                 role="tab"
                 aria-controls="list-newYork"
-                @click="getProducts(1, '國際大都市')"
+                @click="getProductSort(1, '國際大都市')"
                 >紐約</a
               >
             </div>
@@ -107,7 +108,7 @@
                         button
                         type="button"
                         class="btn btn-primary text-white"
-                        @click="$router.push({ path: '/productList' })"
+                        @click="$router.push({ path: `/productList/${item.id}` })"
                       >
                         查看商品
                       </button>
@@ -134,7 +135,7 @@
                           loadingStatus.loadingItem === item.id ||
                           !item.is_enabled
                         "
-                        @click="addCart(item.id)"
+                        @click="addToCart(item.id)"
                       >
                         加入購物車
                       </button>
@@ -145,7 +146,7 @@
             </template>
             <pagination
               :pages="pagination"
-              @emit-pages="getProducts"
+              @emit-pages="getProductSort"
             ></pagination>
           </div>
         </div>
@@ -155,105 +156,32 @@
 <script>
 import Pagination from "@/components/Pagination.vue";
 import cartStroe from '../store/cartStore';
-import { mapActions } from 'pinia';
+import productsStore from '../store/productsStore';
+import { mapState ,mapActions } from 'pinia';
+import ToastMessages from '@/components/ToastMessages.vue';
+
 
 export default {
   name: "Products",
   components: {
     Pagination,
+    ToastMessages
   },
   data() {
     return {
-      products: [],
-      pagination: {},
-      isLoading: false,
-      currentPage: 1,
-      category: "",
-      isActive: "",
       loadingStatus: {
         loadingItem: "",
       },
-      // 從localStorage中取出的資料 必須給予預設值
-      favorite: JSON.parse(localStorage.getItem("favorite")) || [],
     };
   },
   methods: {
-    getProducts(page = 1, category) {
-      this.isActive = category;
-      this.currentPage = page;
-      this.isLoading = true;
-      let api = `${import.meta.env.VITE_API}/api/${
-        import.meta.env.VITE_PATH
-      }/products?page=${page}`;
-      if (category) {
-        api = `${import.meta.env.VITE_API}/api/${
-          import.meta.env.VITE_PATH
-        }/products?category=${category}`;
-      } else {
-        this.isActive = "all";
-      }
-      this.$http
-        .get(api)
-        .then((res) => {
-          this.products = res.data.products;
-          this.pagination = res.data.pagination;
-          this.isLoading = false;
-        })
-        .catch((err) => {
-          this.isLoading = false;
-          this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
-    toggleFavorite(id) {
-      // findIndex 尋找陣列中符合對象並返回index 若沒有合適的會回傳-1
-      const favoriteIndex = this.favorite.findIndex((item) => item === id);
-      if (favoriteIndex === -1) {
-        this.favorite.push(id);
-        this.$swal.fire({
-          icon: "success",
-          title: "已加入收藏",
-        });
-      } else {
-        this.favorite.splice(favoriteIndex, 1);
-        this.$swal.fire({
-          icon: "success",
-          title: "已移除收藏",
-        });
-        this.getFavorites();
-      }
-    },
-    addCart(id, qty = 1) {
-      this.loadingStatus.loadingItem = id;
-      const cart = {
-        product_id: id,
-        qty,
-      };
-      const api = `${import.meta.env.VITE_API}/api/${
-        import.meta.env.VITE_PATH
-      }/cart`;
-      this.$http
-        .post(api, { data: cart })
-        .then((response) => {
-          this.$swal.fire({
-            icon: "success",
-            title: response.data.message,
-          });
-          this.getCarts();
-          this.loadingStatus.loadingItem = "";
-        })
-        .catch((err) => {
-          this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
-    ...mapActions(cartStroe, ['getCarts']),
+    ...mapActions(cartStroe, ['addToCart']),
+    ...mapActions(productsStore, ['toggleFavorite','getProductSort']),
   },
-  
+  computed: {
+    ...mapState(productsStore, ['products','pagination','isActive','isLoading','favorite']),
+    ...mapState(cartStroe, ['cart']),
+  },
   watch: {
     favorite: {
       handler() {
@@ -264,7 +192,7 @@ export default {
     },
   },
   mounted() {
-    this.getProducts();
+    this.getProductSort();
   },
 };
 </script>

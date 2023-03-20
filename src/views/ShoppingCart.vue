@@ -18,7 +18,7 @@
         </button>
       </div>
       <div class="row g-5 order">
-        <div class="col-md-12 bg-light p-4">
+        <div class="col-md-12 bg-light p-4" v-if="length">
           <h4 class="title w-100 text-center mb-4">訂單內容</h4>
           <table class="table align-middle">
             <thead class="text-center">
@@ -50,9 +50,14 @@
                   <td class="text-center">
                     <div class="input-group input-group-sm">
                       <div class="input-group">
-                        <select v-model.number="item.qty" class="form-select" :value="item.qty"
-                          @change="() => selectCartQty(item.id, item.qty)">
-                          <option :value="i" v-for="i in 20" :key="i">{{ i }}</option>
+                        <select
+                          class="form-select"
+                          :value="item.qty"
+                          @change="(evt) => selectCartQty(item.id, evt)"
+                        >
+                          <option :value="i" v-for="i in 20" :key="i">
+                            {{ i }}
+                          </option>
                         </select>
                         <span class="input-group-text" id="basic-addon2">{{
                           item.product.unit
@@ -67,7 +72,7 @@
                     <button
                       type="button"
                       class="btn btn-outline-danger btn-sm"
-                      @click="removeCartItem(item.id)"
+                      @click="delProduct(item.id)"
                       :disabled="loadingStatus.loadingItem === item.id"
                     >
                       <i class="bi bi-x"></i>
@@ -81,11 +86,19 @@
             <input
               v-model="couponCode"
               type="text"
-              :placeholder="total - finalTotal !== 0 ? '已成功套用折扣碼!!' : '輸入折扣碼'"
+              :placeholder="
+                total - finalTotal !== 0 ? '已成功套用折扣碼!!' : '輸入折扣碼'
+              "
               :disabled="total - finalTotal !== 0 ? true : false"
               class="form-control"
             />
-            <button class="input-group-text" id="basic-addon2" @click.prevent="getCoupons">套用</button>
+            <button
+              class="input-group-text"
+              id="basic-addon2"
+              @click.prevent="getCoupons"
+            >
+              套用
+            </button>
           </div>
           <div>
             <div class="discount">
@@ -108,13 +121,17 @@
             </button>
           </div>
         </div>
+        <div class="col-md-12 bg-light p-4" v-else>
+          <h4 class="title w-100 text-center mb-4">還沒有任何訂單唷~</h4>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import { apiGetCart, apiRemoveCartItem } from "@/utils/api.js";
+import cartStroe from "../store/cartStore";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "ShoppingCart",
@@ -126,58 +143,18 @@ export default {
       isLoading: false,
       finalTotal: 0,
       total: 0,
-      couponCode: '',
-      cart: {},
+      couponCode: "",
     };
   },
   methods: {
-    getCart() {
-      apiGetCart()
-        .then((response) => {
-          this.cart = response.data.data;
-        })
-        .catch((err) => {
-          alert(err.response.data.message);
-        });
-    },
-    removeCartItem(id) {
-      this.loadingStatus.loadingItem = id;
-      apiRemoveCartItem(id)
-        .then((response) => {
-          alert(response.data.message);
-          this.loadingStatus.loadingItem = "";
-          this.getCart();
-        })
-        .catch((err) => {
-          alert(err.response.data.message);
-        });
-    },
-    selectCartQty(id, qty){
-      const api = `${import.meta.env.VITE_API}/api/${
-        import.meta.env.VITE_PATH
-      }/cart/${id}`;
-      const cart = {
-        product_id: id,
-        qty,
-      };
-      this.$http
-        .put(api, { data: cart })
-        .then(() => {
-          this.isLoading = false;
-          this.$swal.fire({
-            icon: "success",
-            title: "更新數量",
-          });
-        })
-        this.getCart();
-    },
+    ...mapActions(cartStroe, ["getCart", "delProduct", "selectCartQty"]),
     getCoupons() {
       this.isLoading = true;
       const discount = {
         data: {
           code: this.couponCode,
         },
-      }
+      };
       const url = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
       }/coupon`;
@@ -187,10 +164,10 @@ export default {
           this.isLoading = false;
           this.$swal.fire({
             icon: "success",
-            title: '套用折扣碼成功',
+            title: "套用折扣碼成功",
           });
           this.finalTotal = res.data.data.final_total;
-          this.couponCode = '';
+          this.couponCode = "";
         })
         .catch((err) => {
           this.isLoading = false;
@@ -198,15 +175,18 @@ export default {
             icon: "error",
             title: err.response.data.message,
           });
-          this.couponCode = '';
+          this.couponCode = "";
         });
-    }
+    },
+  },
+  computed: {
+    ...mapState(cartStroe, ['cart','length']),
   },
   watch: {
     // 已經折扣後，input欄位就不會出現優惠碼
     total() {
       if (this.total - this.finalTotal !== 0) {
-        this.couponCode = '';
+        this.couponCode = "";
       }
     },
   },
@@ -244,8 +224,8 @@ export default {
     font-size: 20px;
   }
 }
-.input-group button{
-  &:hover{
+.input-group button {
+  &:hover {
     opacity: 0.7;
   }
 }
