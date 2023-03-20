@@ -1,7 +1,6 @@
 <template>
   <div class="container login">
     <Loading :active="isLoading" :z-index="1000"></Loading>
-    <ToastMessages></ToastMessages>
     <div class="container">
         <div class="row justify-content-center">
           <h3 class="mb-3 text-center">請先登入</h3>
@@ -40,11 +39,8 @@
   </div>
 </template>
 <script>
-import ToastMessages from '@/components/ToastMessages.vue';
 export default {
-  components: {
-    ToastMessages,
-  },
+  name: "Login",
   data() {
     return {
       isLoading: false,

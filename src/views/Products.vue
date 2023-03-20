@@ -1,6 +1,5 @@
 <template>
     <Loading :active="isLoading" :z-index="1000"></Loading>
-    <ToastMessages></ToastMessages>
     <section class="banner">
       <div class="banner-content-wrap">
         <h3 class="banner-title">旅遊規劃</h3>
@@ -158,14 +157,11 @@ import Pagination from "@/components/Pagination.vue";
 import cartStroe from '../store/cartStore';
 import productsStore from '../store/productsStore';
 import { mapState ,mapActions } from 'pinia';
-import ToastMessages from '@/components/ToastMessages.vue';
-
 
 export default {
   name: "Products",
   components: {
     Pagination,
-    ToastMessages
   },
   data() {
     return {
