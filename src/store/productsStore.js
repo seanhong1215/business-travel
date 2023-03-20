@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { apiGetProducts, apiGetProduct } from '@/utils/api'
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default defineStore('productsStroe', {
   state: () => ({

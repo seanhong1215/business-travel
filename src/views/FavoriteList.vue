@@ -8,7 +8,7 @@
     </section>
     <div class="container">
       <section class="products">
-        <div class="row g-0 py-4">
+        <div v-if="favoritesList" class="row g-0 py-4">
           <template v-for="item in favoritesList" :key="item.id">
             <div class="col-md-4 product-feature my-3 mx-3">
               <img :src="item.imageUrl" alt="product-img" />
@@ -39,6 +39,9 @@
             </div>
           </template>
         </div>
+        <div v-else class="row g-0 py-4">
+          <h4 class="title w-100 text-center mb-4">還沒有任何收藏唷!</h4>
+        </div>
       </section>
     </div>
   </div>
@@ -63,11 +66,12 @@ export default {
       this.isLoading = true;
       apiGetProducts()
         .then((res) => {
+          this.isLoading = false;
           this.products = res.data.products;
           this.getFavorites();
-          this.isLoading = false;
         })
         .catch((error) => {
+          this.isLoading = false;
           this.$swal.fire({
           icon: "danger",
           title: "找不到收藏清單",
@@ -94,8 +98,8 @@ export default {
           icon: "success",
           title: "已移除收藏",
         });
-        this.getFavorites();
       }
+      this.getFavorites();
     },
   },
   watch: {

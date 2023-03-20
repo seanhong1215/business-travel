@@ -128,7 +128,6 @@ export default {
     return {
       isLoading: false,
       modules: [EffectFade, Autoplay, Navigation, Pagination],
-      favorite: JSON.parse(localStorage.getItem("favorite")) || [],
     };
   },
   methods: {
@@ -138,7 +137,7 @@ export default {
     ...mapActions(productsStore, ['getProducts', 'toggleFavorite']),
   },
   computed: {
-    ...mapState(productsStore, ['products']),
+    ...mapState(productsStore, ['products', 'favorite']),
   },
   watch: {
     favorite: {

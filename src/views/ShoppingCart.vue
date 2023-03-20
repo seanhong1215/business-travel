@@ -122,7 +122,7 @@
           </div>
         </div>
         <div class="col-md-12 bg-light p-4" v-else>
-          <h4 class="title w-100 text-center mb-4">還沒有任何訂單唷~</h4>
+          <h4 class="title w-100 text-center mb-4">還沒有任何訂單唷!</h4>
         </div>
       </div>
     </section>
@@ -168,6 +168,7 @@ export default {
           });
           this.finalTotal = res.data.data.final_total;
           this.couponCode = "";
+          this.getCart();
         })
         .catch((err) => {
           this.isLoading = false;
@@ -191,7 +192,9 @@ export default {
     },
   },
   mounted() {
-    this.getCart();
+    if(this.couponCode === ""){
+      this.cart.final_total = this.cart.total;
+    }
   },
 };
 </script>

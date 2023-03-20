@@ -6,7 +6,6 @@ import {
   apiRemoveCartItem,
   apiUpdateCart,
 } from "@/utils/api";
-import productsStore from "../store/productsStore";
 import Swal from 'sweetalert2';
 
 
