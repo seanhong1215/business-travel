@@ -98,7 +98,7 @@
             :disabled="
               loadingStatus.loadingItem === product.id || !product.is_enabled
             "
-            @click="addToCarts(product.id)"
+            @click="addToCart(product.id)"
           >
             加入購物車
           </button>

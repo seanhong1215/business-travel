@@ -8,7 +8,7 @@
     <div class="container">
       <div class="products-wrap">
         <div class="row g-5">
-          <div class="col-md-4">
+          <div class="col-md-4 col-sm-12">
             <div class="list-group" id="list-tab" role="tablist">
               <a
                 class="list-group-item list-group-item-action"
@@ -89,12 +89,12 @@
               >
             </div>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-8 col-sm-12">
             <template v-for="item in products" :key="item.id">
               <div class="card mb-3">
                 <div class="row g-0">
                   <div
-                    class="col-md-4 product-feature"
+                    class="col-md-4 col-sm-12 product-feature"
                     @click="$router.push({ path: `/productList/${item.id}` })"
                   >
                     <img
@@ -113,7 +113,7 @@
                       </button>
                     </div>
                   </div>
-                  <div class="col-md-8">
+                  <div class="col-md-8 col-sm-12">
                     <div class="card-body d-flex flex-column h-100">
                       <h5 class="card-title">{{ item.title }}</h5>
                       <p class="card-text">

@@ -10,7 +10,7 @@
       <section class="products">
         <div v-if="favoritesList" class="row g-0 py-4">
           <template v-for="item in favoritesList" :key="item.id">
-            <div class="col-md-4 product-feature my-3 mx-3">
+            <div class="col-12 col-md-3 col-sm-5 product-feature my-3 mx-3">
               <img :src="item.imageUrl" alt="product-img" />
               <div class="product-feature-btn">
                 <button
@@ -127,7 +127,7 @@ export default {
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
   height: max-content;
   border-radius: 4px;
-  max-width: 30.4%;
+  /* max-width: 30.4%; */
   img {
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
@@ -157,6 +157,11 @@ export default {
   }
   .product-feature-btn {
     top:40%;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 576px){
+  .product-feature{
+    margin: 0 !important;
   }
 }
 </style>

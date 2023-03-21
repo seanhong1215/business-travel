@@ -7,18 +7,18 @@
     </section>
     <section class="container">
       <div class="order-process-btn py-5">
-        <button button type="button" class="btn btn-primary active">
+        <button type="button" class="btn btn-primary active col-12 col-md-3">
           Step1 建立訂單
         </button>
-        <button button type="button" class="btn btn-outline-primary">
+        <button type="button" class="btn btn-outline-primary col-12 col-md-3">
           Step2 確認付款
         </button>
-        <button button type="button" class="btn btn-outline-primary">
+        <button type="button" class="btn btn-outline-primary col-12 col-md-3">
           Step3 付款完成
         </button>
       </div>
       <div class="row g-5 order">
-        <div class="col-md-12 bg-light p-4" v-if="length">
+        <div class="col-12 bg-light p-4" v-if="length">
           <h4 class="title w-100 text-center mb-4">訂單內容</h4>
           <table class="table align-middle">
             <thead class="text-center">
@@ -121,7 +121,7 @@
             </button>
           </div>
         </div>
-        <div class="col-md-12 bg-light p-4" v-else>
+        <div class="col-12 bg-light p-4" v-else>
           <h4 class="title w-100 text-center mb-4">還沒有任何訂單唷!</h4>
         </div>
       </div>
@@ -203,11 +203,7 @@ export default {
 .banner {
   background-image: url("@/assets/img/shoppingCart.png");
 }
-.order-process-btn {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
+
 .order {
   margin-bottom: 40px;
 }
@@ -230,6 +226,34 @@ export default {
 .input-group button {
   &:hover {
     opacity: 0.7;
+  }
+}
+@media screen and (min-width: 320px) and (max-width: 768px){
+  .order .bg-light{
+    margin-top: 0;
+  }
+ 
+  .order {
+    margin: auto 0;
+    margin-bottom: 40px;
+  }
+}
+@media (max-width: 640px){
+  .input-group {
+    flex-direction: column;
+  }
+  .discount{
+      margin-bottom: 20px;
+      .text-end{
+        text-align: center !important;
+      }
+    }
+  .input-group > .form-select, .input-group > .form-control{
+    width: 100%;
+    border-radius: 0;
+  }
+  .input-group-text{
+    border-radius: 0;
   }
 }
 </style>

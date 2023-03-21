@@ -7,13 +7,13 @@
     </section>
     <section class="container">
       <div class="order-process-btn py-5">
-        <button button type="button" class="btn btn-outline-primary">
+        <button button type="button" class="btn btn-outline-primary col-12 col-md-3">
           Step1 建立訂單
         </button>
-        <button button type="button" class="btn btn-outline-primary">
+        <button button type="button" class="btn btn-outline-primary col-12 col-md-3">
           Step2 確認付款
         </button>
-        <button button type="button" class="btn btn-primary active">
+        <button button type="button" class="btn btn-primary active col-12 col-md-3">
           Step3 付款完成
         </button>
       </div>

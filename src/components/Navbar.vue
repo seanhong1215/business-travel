@@ -214,4 +214,13 @@ li {
     background-color: #d9d9d9;
   }
 }
+@media screen and (min-width: 320px) and (max-width: 576px){
+
+    .navbar .container-fluid{
+      justify-content: center;
+    }
+    .navbar-collapse{
+      text-align: center;
+    }
+  }
 </style>
