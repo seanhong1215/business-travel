@@ -128,75 +128,74 @@
     </section>
   </div>
 </template>
-
 <script>
-import cartStroe from "../store/cartStore";
-import { mapActions, mapState } from "pinia";
+import cartStroe from '../store/cartStore'
+import { mapActions, mapState } from 'pinia'
 
 export default {
-  name: "ShoppingCart",
-  data() {
+  name: 'ShoppingCart',
+  data () {
     return {
       loadingStatus: {
-        loadingItem: "",
+        loadingItem: ''
       },
       isLoading: false,
       finalTotal: 0,
       total: 0,
-      couponCode: "",
-    };
+      couponCode: ''
+    }
   },
   methods: {
-    ...mapActions(cartStroe, ["getCart", "delProduct", "selectCartQty"]),
-    getCoupons() {
-      this.isLoading = true;
+    ...mapActions(cartStroe, ['getCart', 'delProduct', 'selectCartQty']),
+    getCoupons () {
+      this.isLoading = true
       const discount = {
         data: {
-          code: this.couponCode,
-        },
-      };
+          code: this.couponCode
+        }
+      }
       const url = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/coupon`;
+      }/coupon`
       this.$http
         .post(url, discount)
         .then((res) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "success",
-            title: "套用折扣碼成功",
-          });
-          this.finalTotal = res.data.data.final_total;
-          this.couponCode = "";
-          this.getCart();
+            icon: 'success',
+            title: '套用折扣碼成功'
+          })
+          this.finalTotal = res.data.data.final_total
+          this.couponCode = ''
+          this.getCart()
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-          this.couponCode = "";
-        });
-    },
+            icon: 'error',
+            title: err.response.data.message
+          })
+          this.couponCode = ''
+        })
+    }
   },
   computed: {
-    ...mapState(cartStroe, ['cart','length']),
+    ...mapState(cartStroe, ['cart', 'length'])
   },
   watch: {
     // 已經折扣後，input欄位就不會出現優惠碼
-    total() {
+    total () {
       if (this.total - this.finalTotal !== 0) {
-        this.couponCode = "";
+        this.couponCode = ''
       }
-    },
-  },
-  mounted() {
-    if(this.couponCode === ""){
-      this.cart.final_total = this.cart.total;
     }
   },
-};
+  mounted () {
+    if (this.couponCode === '') {
+      this.cart.final_total = this.cart.total
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -228,31 +227,32 @@ export default {
     opacity: 0.7;
   }
 }
-@media screen and (min-width: 320px) and (max-width: 768px){
-  .order .bg-light{
+@media screen and (min-width: 320px) and (max-width: 768px) {
+  .order .bg-light {
     margin-top: 0;
   }
- 
+
   .order {
     margin: auto 0;
     margin-bottom: 40px;
   }
 }
-@media (max-width: 640px){
+@media (max-width: 640px) {
   .input-group {
     flex-direction: column;
   }
-  .discount{
-      margin-bottom: 20px;
-      .text-end{
-        text-align: center !important;
-      }
+  .discount {
+    margin-bottom: 20px;
+    .text-end {
+      text-align: center !important;
     }
-  .input-group > .form-select, .input-group > .form-control{
+  }
+  .input-group > .form-select,
+  .input-group > .form-control {
     width: 100%;
     border-radius: 0;
   }
-  .input-group-text{
+  .input-group-text {
     border-radius: 0;
   }
 }

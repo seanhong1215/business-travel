@@ -211,68 +211,68 @@
   </div>
 </template>
 <script>
-import modalMixin from '@/mixins/modalMixin';
+import modalMixin from '@/mixins/modalMixin'
 export default {
   props: {
     product: {
       type: Object,
-      default() { return {}; },
+      default () { return {} }
     },
     isNew: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  data() {
+  data () {
     return {
       status: {},
       modal: '',
-      tempProduct: {},
-    };
+      tempProduct: {}
+    }
   },
   emits: ['update-product'],
   mixins: [modalMixin],
   watch: {
-    product() {
-      this.tempProduct = this.product;
+    product () {
+      this.tempProduct = this.product
       if (!this.tempProduct.imagesUrl) {
-        this.tempProduct.imagesUrl = [];
+        this.tempProduct.imagesUrl = []
       }
       if (!this.tempProduct.imageUrl) {
-        this.tempProduct.imageUrl = '';
+        this.tempProduct.imageUrl = ''
       }
-    },
+    }
   },
   methods: {
-    uploadFile() {
-      const uploadedFile = this.$refs.fileInput.files[0];
-      const formData = new FormData();
-      formData.append('file-to-upload', uploadedFile);
-      const url = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/admin/upload`;
-      this.status.fileUploading = true;
+    uploadFile () {
+      const uploadedFile = this.$refs.fileInput.files[0]
+      const formData = new FormData()
+      formData.append('file-to-upload', uploadedFile)
+      const url = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/admin/upload`
+      this.status.fileUploading = true
       this.$http.post(url, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       }).then((res) => {
-        this.status.fileUploading = false;
+        this.status.fileUploading = false
         if (res.data.success) {
-          this.tempProduct.imageUrl = res.data.imageUrl;
-          this.$refs.fileInput.value = '';
+          this.tempProduct.imageUrl = res.data.imageUrl
+          this.$refs.fileInput.value = ''
           this.$swal.fire({
-            icon: "success",
+            icon: 'success',
             title: '圖片上傳結果',
-            text: res.data.message,
-          });
+            text: res.data.message
+          })
         }
       }).catch((err) => {
-        this.status.fileUploading = false;
+        this.status.fileUploading = false
         this.$swal.fire({
-            icon: "error",
-            title: `圖片失敗：${err.response.data.message}`,
-          });
-      });
-    },
-  },
-};
+          icon: 'error',
+          title: `圖片失敗：${err.response.data.message}`
+        })
+      })
+    }
+  }
+}
 </script>

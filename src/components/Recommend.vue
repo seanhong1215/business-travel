@@ -101,43 +101,43 @@
             </button>
           </div>
         </swiper-slide>
-        
+
       </swiper>
     </section>
 </template>
 
 <script>
-  import { Swiper, SwiperSlide } from "swiper/vue";
-  import { EffectFade, Autoplay, Navigation, Pagination } from "swiper";
-  import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
-import { apiGetProducts } from "@/utils/api.js";
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { EffectFade, Autoplay, Navigation, Pagination } from 'swiper'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
+import { apiGetProducts } from '@/utils/api.js'
 
 export default {
   components: {
     Swiper,
-    SwiperSlide,
+    SwiperSlide
   },
-  name: "Recommend",
-  data(){
+  name: 'RecommendView',
+  data () {
     return {
       modules: [EffectFade, Autoplay, Navigation, Pagination],
       products: []
     }
   },
   methods: {
-    getProducts() {
-      this.isLoading = true;
+    getProducts () {
+      this.isLoading = true
       apiGetProducts().then((res) => {
-        this.products = res.data.products;
-        this.isLoading = false;
-      });
-    },
+        this.products = res.data.products
+        this.isLoading = false
+      })
+    }
   },
-  mounted(){
-    this.getProducts();
+  mounted () {
+    this.getProducts()
   }
 
 }
@@ -157,7 +157,7 @@ export default {
   :deep(.swiper) {
     .swiper-button-prev,.swiper-button-next {
       color: #000;
-    
+
     }
 }
 .swiper-slide {

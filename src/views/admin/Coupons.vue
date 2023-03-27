@@ -58,127 +58,127 @@
   </div>
 </template>
 <script>
-import CouponModal from "@/components/CouponModal.vue";
-import DelModal from "@/components/DelModal.vue";
+import CouponModal from '@/components/CouponModal.vue'
+import DelModal from '@/components/DelModal.vue'
 export default {
-  name: "Coupons",
+  name: 'CouPons',
   components: { CouponModal, DelModal },
   props: {
-    config: Object,
+    config: Object
   },
-  data() {
+  data () {
     return {
       coupons: {},
       tempCoupon: {
-        title: "",
+        title: '',
         is_enabled: 0,
         percent: 100,
-        code: "",
+        code: ''
       },
       isLoading: false,
-      isNew: false,
-    };
+      isNew: false
+    }
   },
   methods: {
-    openCouponModal(isNew, item) {
-      this.isNew = isNew;
+    openCouponModal (isNew, item) {
+      this.isNew = isNew
       if (this.isNew) {
         this.tempCoupon = {
-          due_date: new Date().getTime() / 1000,
-        };
+          due_date: new Date().getTime() / 1000
+        }
       } else {
-        this.tempCoupon = { ...item };
+        this.tempCoupon = { ...item }
       }
-      this.$refs.couponModal.openModal();
+      this.$refs.couponModal.openModal()
     },
-    openDelCouponModal(item) {
-      this.tempCoupon = { ...item };
-      const delComponent = this.$refs.delModal;
-      delComponent.openModal();
+    openDelCouponModal (item) {
+      this.tempCoupon = { ...item }
+      const delComponent = this.$refs.delModal
+      delComponent.openModal()
     },
-    getCoupons() {
-      this.isLoading = true;
+    getCoupons () {
+      this.isLoading = true
       const url = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/coupons`;
+      }/admin/coupons`
       this.$http
         .get(url, this.tempProduct)
         .then((response) => {
-          this.coupons = response.data.coupons;
-          this.isLoading = false;
+          this.coupons = response.data.coupons
+          this.isLoading = false
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
     },
-    updateCoupon(tempCoupon) {
-      this.isLoading = true;
+    updateCoupon (tempCoupon) {
+      this.isLoading = true
       let url = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/coupon`;
-      let httpMethos = "post";
-      let status = "新增";
-      let data = tempCoupon;
+      }/admin/coupon`
+      let httpMethos = 'post'
+      let status = '新增'
+      let data = tempCoupon
       if (!this.isNew) {
         url = `${import.meta.env.VITE_API}/api/${
           import.meta.env.VITE_PATH
-        }/admin/coupon/${this.tempCoupon.id}`;
-        httpMethos = "put";
-        status = "更新";
-        data = this.tempCoupon;
+        }/admin/coupon/${this.tempCoupon.id}`
+        httpMethos = 'put'
+        status = '更新'
+        data = this.tempCoupon
       }
       this.$http[httpMethos](url, { data })
         .then((res) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "success",
-            title: res.data.message,
-          });
-          this.getCoupons();
-          this.$refs.couponModal.hideModal();
+            icon: 'success',
+            title: res.data.message
+          })
+          this.getCoupons()
+          this.$refs.couponModal.hideModal()
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal
             .fire({
-              icon: "error",
+              icon: 'error',
               title: `${status}產品失敗`,
-              html: `<p class="text-danger">${err.response.data.message}</p>`,
-            });
-        });
+              html: `<p class="text-danger">${err.response.data.message}</p>`
+            })
+        })
     },
-    delCoupon() {
+    delCoupon () {
       const url = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/coupon/${this.tempCoupon.id}`;
-      this.isLoading = true;
+      }/admin/coupon/${this.tempCoupon.id}`
+      this.isLoading = true
       this.$http
         .delete(url)
         .then((res) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "success",
-            title: res.data.message,
-          });
-          const delComponent = this.$refs.delModal;
-          delComponent.hideModal();
-          this.getCoupons();
+            icon: 'success',
+            title: res.data.message
+          })
+          const delComponent = this.$refs.delModal
+          delComponent.hideModal()
+          this.getCoupons()
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
+    }
   },
-  created() {
-    this.getCoupons();
-  },
-};
+  created () {
+    this.getCoupons()
+  }
+}
 </script>

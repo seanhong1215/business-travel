@@ -71,110 +71,111 @@
   <Pagination :pages="pagination" @emitPages="getOrders"></Pagination>
 </template>
 <script>
-import DelModal from "@/components/DelModal.vue";
-import OrderModal from "@/components/OrderModal.vue";
-import Pagination from "@/components/Pagination.vue";
+import DelModal from '@/components/DelModal.vue'
+import OrderModal from '@/components/OrderModal.vue'
+import Pagination from '@/components/Pagination.vue'
 export default {
-  data() {
+  name: 'OrderAll',
+  data () {
     return {
       orders: {},
       isNew: false,
       pagination: {},
       isLoading: false,
       tempOrder: {},
-      currentPage: 1,
-    };
+      currentPage: 1
+    }
   },
   components: {
     Pagination,
     DelModal,
-    OrderModal,
+    OrderModal
   },
   methods: {
-    getOrders(currentPage = 1) {
-      this.currentPage = currentPage;
+    getOrders (currentPage = 1) {
+      this.currentPage = currentPage
       const url = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/orders?page=${currentPage}`;
-      this.isLoading = true;
+      }/admin/orders?page=${currentPage}`
+      this.isLoading = true
       this.$http
         .get(url, this.tempProduct)
         .then((res) => {
-          this.orders = res.data.orders;
-          this.pagination = res.data.pagination;
-          this.isLoading = false;
+          this.orders = res.data.orders
+          this.pagination = res.data.pagination
+          this.isLoading = false
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
     },
-    openModal(item) {
-      this.tempOrder = { ...item };
-      this.isNew = false;
-      const orderComponent = this.$refs.orderModal;
-      orderComponent.openModal();
+    openModal (item) {
+      this.tempOrder = { ...item }
+      this.isNew = false
+      const orderComponent = this.$refs.orderModal
+      orderComponent.openModal()
     },
-    openDelOrderModal(item) {
-      this.tempOrder = { ...item };
-      const delComponent = this.$refs.delModal;
-      delComponent.openModal();
+    openDelOrderModal (item) {
+      this.tempOrder = { ...item }
+      const delComponent = this.$refs.delModal
+      delComponent.openModal()
     },
-    updatePaid(item) {
-      this.isLoading = true;
+    updatePaid (item) {
+      this.isLoading = true
       const api = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/order/${item.id}`;
+      }/admin/order/${item.id}`
       const paid = {
-        is_paid: item.is_paid,
-      };
+        is_paid: item.is_paid
+      }
       this.$http
         .put(api, { data: paid })
         .then(() => {
-          this.isLoading = false;
-          const orderComponent = this.$refs.orderModal;
-          orderComponent.hideModal();
-          this.getOrders(this.currentPage);
+          this.isLoading = false
+          const orderComponent = this.$refs.orderModal
+          orderComponent.hideModal()
+          this.getOrders(this.currentPage)
           this.$swal.fire({
-            icon: "success",
-            title: "更新付款狀態",
-          });
+            icon: 'success',
+            title: '更新付款狀態'
+          })
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: `錯誤訊息：${err.message}`,
-          });
-        });
+            icon: 'error',
+            title: `錯誤訊息：${err.message}`
+          })
+        })
     },
-    delOrder() {
+    delOrder () {
       const api = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/order/${this.tempOrder.id}`;
-      this.isLoading = true;
+      }/admin/order/${this.tempOrder.id}`
+      this.isLoading = true
       this.$http
         .delete(api)
         .then(() => {
-          this.isLoading = false;
-          const delComponent = this.$refs.delModal;
-          delComponent.hideModal();
-          this.getOrders(this.currentPage);
+          this.isLoading = false
+          const delComponent = this.$refs.delModal
+          delComponent.hideModal()
+          this.getOrders(this.currentPage)
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: `錯誤訊息：${err.message}`,
-          });
-        });
-    },
+            icon: 'error',
+            title: `錯誤訊息：${err.message}`
+          })
+        })
+    }
   },
-  created() {
-    this.getOrders();
-  },
-};
+  created () {
+    this.getOrders()
+  }
+}
 </script>

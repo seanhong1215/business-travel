@@ -48,73 +48,73 @@
 </template>
 
 <script>
-import { apiGetProducts } from "@/utils/api.js";
+import { apiGetProducts } from '@/utils/api.js'
 
 export default {
-  name: "FavoriteList",
-  data() {
+  name: 'FavoriteList',
+  data () {
     return {
       products: [],
       favoritesList: [],
       isLoading: false,
-      id: "",
-      favorite: JSON.parse(localStorage.getItem("favorite")) || [],
-    };
+      id: '',
+      favorite: JSON.parse(localStorage.getItem('favorite')) || []
+    }
   },
   methods: {
-    getProducts() {
-      this.isLoading = true;
+    getProducts () {
+      this.isLoading = true
       apiGetProducts()
         .then((res) => {
-          this.isLoading = false;
-          this.products = res.data.products;
-          this.getFavorites();
+          this.isLoading = false
+          this.products = res.data.products
+          this.getFavorites()
         })
-        .catch((error) => {
-          this.isLoading = false;
+        .catch(() => {
+          this.isLoading = false
           this.$swal.fire({
-          icon: "danger",
-          title: "找不到收藏清單",
-        });
-        });
+            icon: 'danger',
+            title: '找不到收藏清單'
+          })
+        })
     },
-    getFavorites() {
+    getFavorites () {
       this.favoritesList = this.products.filter(
         (item) => this.favorite.indexOf(item.id) > -1
-      );
+      )
     },
-    toggleFavorite(id) {
+    toggleFavorite (id) {
       // findIndex 尋找陣列中符合對象並返回index 若沒有合適的會回傳-1
-      const favoriteIndex = this.favorite.findIndex((item) => item === id);
+      const favoriteIndex = this.favorite.findIndex((item) => item === id)
       if (favoriteIndex === -1) {
-        this.favorite.push(id);
+        this.favorite.push(id)
         this.$swal.fire({
-          icon: "success",
-          title: "已加入收藏",
-        });
+          icon: 'success',
+          title: '已加入收藏'
+        })
       } else {
-        this.favorite.splice(favoriteIndex, 1);
+        this.favorite.splice(favoriteIndex, 1)
         this.$swal.fire({
-          icon: "success",
-          title: "已移除收藏",
-        });
+          icon: 'success',
+          title: '已移除收藏'
+        })
       }
-      this.getFavorites();
-    },
+      this.getFavorites()
+    }
   },
   watch: {
     favorite: {
-      handler() {
+      handler () {
         // 當資料有變動時就進行寫入
-        localStorage.setItem("favorite", JSON.stringify(this.favorite));
+        localStorage.setItem('favorite', JSON.stringify(this.favorite))
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
-  mounted() {
-    this.getProducts();
-  },
-};
+  mounted () {
+    this.getProducts()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

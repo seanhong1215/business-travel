@@ -56,39 +56,39 @@
   </div>
 </template>
 <script>
-import modalMixin from '@/mixins/modalMixin';
+import modalMixin from '@/mixins/modalMixin'
 export default {
   props: {
     coupon: {
       type: Object,
-      default() {
-        return {};
-      },
+      default () {
+        return {}
+      }
     },
     isNew: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
-  data() {
+  data () {
     return {
       tempCoupon: {},
-      due_date: '',
-    };
+      due_date: ''
+    }
   },
   emits: ['update-coupon'],
   watch: {
-    coupon() {
-      this.tempCoupon = this.coupon;
+    coupon () {
+      this.tempCoupon = this.coupon
       // 將時間格式改為 YYYY-MM-DD
       const dateAndTime = new Date(this.tempCoupon.due_date * 1000)
         .toISOString().split('T');
-      [this.due_date] = dateAndTime;
+      [this.due_date] = dateAndTime
     },
-    due_date() {
-      this.tempCoupon.due_date = Math.floor(new Date(this.due_date) / 1000);
-    },
+    due_date () {
+      this.tempCoupon.due_date = Math.floor(new Date(this.due_date) / 1000)
+    }
   },
-  mixins: [modalMixin],
-};
+  mixins: [modalMixin]
+}
 </script>

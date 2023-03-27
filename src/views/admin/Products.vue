@@ -70,12 +70,12 @@
 </template>
 
 <script>
-import DelModal from "@/components/DelModal.vue";
-import Pagination from "@/components/Pagination.vue";
-import ProductModal from "@/components/ProductModal.vue";
+import DelModal from '@/components/DelModal.vue'
+import Pagination from '@/components/Pagination.vue'
+import ProductModal from '@/components/ProductModal.vue'
 export default {
-  name: "Products",
-  data() {
+  name: 'ProductAll',
+  data () {
     return {
       products: [],
       pagination: {},
@@ -83,89 +83,89 @@ export default {
       isNew: false,
       isLoading: false,
       status: {
-        fileUploading: false,
+        fileUploading: false
       },
       modal: {
-        editModal: "",
-        delModal: "",
+        editModal: '',
+        delModal: ''
       },
-      currentPage: 1,
-    };
+      currentPage: 1
+    }
   },
   components: {
     Pagination,
     DelModal,
-    ProductModal,
+    ProductModal
   },
   methods: {
-    getProducts(page = 1) {
-      this.currentPage = page;
-      this.isLoading = true;
+    getProducts (page = 1) {
+      this.currentPage = page
+      this.isLoading = true
       const api = `${import.meta.env.VITE_API}/api/${
         import.meta.env.VITE_PATH
-      }/admin/products?page=${page}`;
+      }/admin/products?page=${page}`
       this.$http
         .get(api)
         .then((res) => {
-          this.products = res.data.products;
-          this.pagination = res.data.pagination;
-          this.isLoading = false;
+          this.products = res.data.products
+          this.pagination = res.data.pagination
+          this.isLoading = false
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
     },
-    openModal(isNew, item) {
+    openModal (isNew, item) {
       if (isNew) {
-        this.tempProduct = {};
-        this.isNew = true;
+        this.tempProduct = {}
+        this.isNew = true
       } else {
-        this.tempProduct = { ...item };
-        this.isNew = false;
+        this.tempProduct = { ...item }
+        this.isNew = false
       }
-      const productComponent = this.$refs.productModal;
-      productComponent.openModal();
+      const productComponent = this.$refs.productModal
+      productComponent.openModal()
     },
-    updateProduct(item) {
-      this.isLoading = true;
-      let url = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/admin/product`;
-      let httpMethos = 'post';
-      let status = '新增';
-      this.tempProduct = item;
-      const productComponent = this.$refs.productModal;
+    updateProduct (item) {
+      this.isLoading = true
+      let url = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/admin/product`
+      let httpMethos = 'post'
+      let status = '新增'
+      this.tempProduct = item
+      const productComponent = this.$refs.productModal
       if (!this.isNew) {
-        url = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/admin/product/${this.tempProduct.id}`;
-        httpMethos = 'put';
-        status = '更新';
+        url = `${import.meta.env.VITE_API}/api/${import.meta.env.VITE_PATH}/admin/product/${this.tempProduct.id}`
+        httpMethos = 'put'
+        status = '更新'
       }
       this.$http[httpMethos](url, { data: this.tempProduct }).then((res) => {
-        this.isLoading = false;
+        this.isLoading = false
         this.$swal.fire({
-            icon: "success",
-            title: res.data.message,
-          });
-          productComponent.hideModal();
-          this.getProducts(this.currentPage);
+          icon: 'success',
+          title: res.data.message
+        })
+        productComponent.hideModal()
+        this.getProducts(this.currentPage)
       }).catch((err) => {
-        this.isLoading = false;
+        this.isLoading = false
         this.$swal.fire({
-            icon: "error",
-            title: `${status}產品失敗`,
-            html: `<p class="text-danger">${err.response.data.message}</p>`,
-          });
-      });
+          icon: 'error',
+          title: `${status}產品失敗`,
+          html: `<p class="text-danger">${err.response.data.message}</p>`
+        })
+      })
     },
-    openDelProductModal(item) {
-      this.tempProduct = { ...item };
-      const delComponent = this.$refs.delModal;
-      delComponent.openModal();
+    openDelProductModal (item) {
+      this.tempProduct = { ...item }
+      const delComponent = this.$refs.delModal
+      delComponent.openModal()
     },
-    delProduct() {
-      this.isLoading = true;
+    delProduct () {
+      this.isLoading = true
       this.$http
         .delete(
           `${import.meta.env.VITE_API}/api/${
@@ -173,26 +173,26 @@ export default {
           }/admin/product/${this.tempProduct.id}`
         )
         .then(() => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "success",
-            title: "刪除產品成功",
-          });
-          const delComponent = this.$refs.delModal;
-          delComponent.hideModal();
-          this.getProducts(this.currentPage);
+            icon: 'success',
+            title: '刪除產品成功'
+          })
+          const delComponent = this.$refs.delModal
+          delComponent.hideModal()
+          this.getProducts(this.currentPage)
         })
         .catch((err) => {
-          this.isLoading = false;
+          this.isLoading = false
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
+    }
   },
-  created() {
-    this.getProducts();
-  },
-};
+  created () {
+    this.getProducts()
+  }
+}
 </script>

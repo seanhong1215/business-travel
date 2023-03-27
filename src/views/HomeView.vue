@@ -105,53 +105,53 @@
 </template>
 <script>
 // Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from "swiper/vue";
-import { EffectFade, Autoplay, Navigation, Pagination } from "swiper";
-import Recommend from "@/components/Recommend.vue";
-import productsStore from '../store/productsStore';
-import { mapState, mapActions } from 'pinia';
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { EffectFade, Autoplay, Navigation, Pagination } from 'swiper'
+import Recommend from '@/components/Recommend.vue'
+import productsStore from '../store/productsStore'
+import { mapState, mapActions } from 'pinia'
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-fade";
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/effect-fade'
 
 export default {
   components: {
     Swiper,
     SwiperSlide,
-    Recommend,
+    Recommend
   },
-  name: "HomeView",
-  data() {
+  name: 'HomeView',
+  data () {
     return {
       isLoading: false,
-      modules: [EffectFade, Autoplay, Navigation, Pagination],
-    };
+      modules: [EffectFade, Autoplay, Navigation, Pagination]
+    }
   },
   methods: {
-    toIntro() {
-      this.$refs["intro"].scrollIntoView(true);
+    toIntro () {
+      this.$refs.intro.scrollIntoView(true)
     },
-    ...mapActions(productsStore, ['getProducts', 'toggleFavorite']),
+    ...mapActions(productsStore, ['getProducts', 'toggleFavorite'])
   },
   computed: {
-    ...mapState(productsStore, ['products', 'favorite']),
+    ...mapState(productsStore, ['products', 'favorite'])
   },
   watch: {
     favorite: {
-      handler() {
+      handler () {
         // 當資料有變動時就進行寫入
-        localStorage.setItem("favorite", JSON.stringify(this.favorite));
+        localStorage.setItem('favorite', JSON.stringify(this.favorite))
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
-  mounted() {
-    this.getProducts();
-  },
-};
+  mounted () {
+    this.getProducts()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

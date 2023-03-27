@@ -120,66 +120,66 @@
 </template>
 
 <script>
-import { apiCreateOrder, apiGetCart } from "@/utils/api.js";
+import { apiCreateOrder, apiGetCart } from '@/utils/api.js'
 
 export default {
-  name: "ConfirmCart",
-  data() {
+  name: 'ConfirmCart',
+  data () {
     return {
       isLoading: false,
       loadingStatus: {
-        loadingItem: "",
+        loadingItem: ''
       },
       form: {
         user: {
-          name: "",
-          email: "",
-          tel: "",
-          address: "",
+          name: '',
+          email: '',
+          tel: '',
+          address: ''
         },
-        message: "",
-      },
-    };
+        message: ''
+      }
+    }
   },
   methods: {
-    getCart() {
+    getCart () {
       apiGetCart()
         .then((response) => {
-          this.cart = response.data.data;
+          this.cart = response.data.data
         })
         .catch((err) => {
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
     },
-    createOrder() {
-      const order = this.form;
+    createOrder () {
+      const order = this.form
       apiCreateOrder({ data: order })
         .then((response) => {
           this.$swal.fire({
-            icon: "success",
-            title: response.data.message,
-          });
-          if(response.data.success){
-            this.$router.push({ path: "/finishCart" });
+            icon: 'success',
+            title: response.data.message
+          })
+          if (response.data.success) {
+            this.$router.push({ path: '/finishCart' })
           }
-          this.$refs.form.resetForm();
-          this.getCart();
+          this.$refs.form.resetForm()
+          this.getCart()
         })
         .catch((err) => {
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
-    },
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
+    }
   },
-  mounted() {
-    this.getCart();
-  },
-};
+  mounted () {
+    this.getCart()
+  }
+}
 </script>
 
 <style lang="scss" scoped>

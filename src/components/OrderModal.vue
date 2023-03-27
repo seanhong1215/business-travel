@@ -140,28 +140,28 @@
   </div>
 </template>
 <script>
-import modalMixin from '@/mixins/modalMixin';
+import modalMixin from '@/mixins/modalMixin'
 export default {
   props: {
     order: {
       type: Object,
-      default() { return {}; },
-    },
+      default () { return {} }
+    }
   },
-  data() {
+  data () {
     return {
       status: {},
       modal: '',
       tempOrder: {},
-      isPaid: false,
-    };
+      isPaid: false
+    }
   },
   emits: ['update-paid'],
   mixins: [modalMixin],
   watch: {
-    order() {
-      this.tempOrder = this.order;
-    },
-  },
-};
+    order () {
+      this.tempOrder = this.order
+    }
+  }
+}
 </script>

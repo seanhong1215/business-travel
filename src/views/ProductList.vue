@@ -109,60 +109,60 @@
 </template>
 <script>
 import Recommend from '@/components/Recommend.vue'
-import cartStroe from '../store/cartStore';
-import productsStore from '../store/productsStore';
-import { mapState, mapActions } from 'pinia';
-import {apiAddToCart} from '@/utils/api';
+import cartStroe from '../store/cartStore'
+import productsStore from '../store/productsStore'
+import { mapState, mapActions } from 'pinia'
+import { apiAddToCart } from '@/utils/api'
 export default {
-  name: "ProductList",
+  name: 'ProductList',
   components: {
     Recommend
   },
-  data() {
+  data () {
     return {
       qty: 1,
-      paramId: "",
+      paramId: '',
       loadingStatus: {
-        loadingItem: "",
-      },
-    };
+        loadingItem: ''
+      }
+    }
   },
   methods: {
-    selectCartNum(event){
-      this.qty = event.target.value * 1;
+    selectCartNum (event) {
+      this.qty = event.target.value * 1
     },
-    addToCart(id) {
+    addToCart (id) {
       const cart = {
         product_id: id,
-        qty: this.qty,
-      };
+        qty: this.qty
+      }
       apiAddToCart({ data: cart })
         .then((response) => {
           this.$swal.fire({
-            icon: "success",
-            title: response.data.message,
-          });
-          this.getCart();
+            icon: 'success',
+            title: response.data.message
+          })
+          this.getCart()
         })
         .catch((err) => {
           this.$swal.fire({
-            icon: "error",
-            title: err.response.data.message,
-          });
-        });
+            icon: 'error',
+            title: err.response.data.message
+          })
+        })
     },
     ...mapActions(cartStroe, ['getCart']),
-    ...mapActions(productsStore, ['getProductId']),
+    ...mapActions(productsStore, ['getProductId'])
   },
   computed: {
-    ...mapState(productsStore, ['product','isLoading']),
-    ...mapState(cartStroe, ['cart']),
+    ...mapState(productsStore, ['product', 'isLoading']),
+    ...mapState(cartStroe, ['cart'])
   },
-  mounted() {
-    this.paramId = this.$route.params.id;
-    this.getProductId(this.paramId);
-  },
-};
+  mounted () {
+    this.paramId = this.$route.params.id
+    this.getProductId(this.paramId)
+  }
+}
 </script>
 
 <style lang="scss" scoped>

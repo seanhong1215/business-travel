@@ -29,7 +29,7 @@
 
 <script>
 import { mapActions, mapState } from 'pinia'
-import { useToastMessageStore } from "../store/toastMessage";
+import { useToastMessageStore } from '../store/toastMessage'
 export default {
   computed: {
     ...mapState(useToastMessageStore, ['messages'])
@@ -37,5 +37,5 @@ export default {
   methods: {
     ...mapActions(useToastMessageStore, ['clearToast'])
   }
-};
+}
 </script>

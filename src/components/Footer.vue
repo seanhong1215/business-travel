@@ -34,37 +34,37 @@
     <div><button type="button" class="goTop btn btn-primary" v-if="scY > 300" @click="toTop"><i class="bi bi-arrow-up"></i></button></div>
   </footer>
   </template>
-  <script>
-  
-  export default {
-    name: "Footer",
-    data() {
+<script>
+
+export default {
+  name: 'FooterView',
+  data () {
     return {
       scTimer: 0,
-      scY: 0,
-    };
-  },
-  methods: {
-    handleScroll() {
-      if (this.scTimer) return;
-      this.scTimer = setTimeout(() => {
-        this.scY = window.scrollY;
-        clearTimeout(this.scTimer);
-        this.scTimer = 0;
-      }, 100);
-    },
-    toTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
+      scY: 0
     }
   },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll);
+  methods: {
+    handleScroll () {
+      if (this.scTimer) return
+      this.scTimer = setTimeout(() => {
+        this.scY = window.scrollY
+        clearTimeout(this.scTimer)
+        this.scTimer = 0
+      }, 100)
+    },
+    toTop () {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
   },
-  };
-  </script>
+  mounted () {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+}
+</script>
   <style lang="scss" scoped>
   .footer {
   background-color: #2a2a2a;
@@ -98,7 +98,7 @@
     .input-group {
       width: 50%;
       margin: auto;
-      
+
     }
   }
   .footer-bottom {
@@ -141,4 +141,3 @@
   }
 }
   </style>
-  

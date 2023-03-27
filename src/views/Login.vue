@@ -40,46 +40,46 @@
 </template>
 <script>
 export default {
-  name: "Login",
-  data() {
+  name: 'userLogin',
+  data () {
     return {
       isLoading: false,
       user: {
         username: '',
-        password: '',
-      },
-    };
+        password: ''
+      }
+    }
   },
   methods: {
-    signIn() {
-      this.isLoading = true;
+    signIn () {
+      this.isLoading = true
       this.$http
         .post(`${import.meta.env.VITE_API}/admin/signin`, this.user)
         .then((response) => {
           if (response.data.success === true) {
-            const { token, expired } = response.data;
-            document.cookie = `hexschool=${token}; expires=${new Date(expired)};`;
-            this.isLoading = false;
+            const { token, expired } = response.data
+            document.cookie = `hexschool=${token}; expires=${new Date(expired)};`
+            this.isLoading = false
             if (token) {
               this.$swal.fire(
-                  '登入成功!',
-                  '即將進入產品頁面',
-                  'success'
-                ).then((result) => {
-                  if (result.isConfirmed) {
-                  this.$router.push("/admin/products");
+                '登入成功!',
+                '即將進入產品頁面',
+                'success'
+              ).then((result) => {
+                if (result.isConfirmed) {
+                  this.$router.push('/admin/products')
                 }
               })
             }
           }
         })
         .catch((error) => {
-          this.isLoading = false;
-          this.$httpMessageState(error.response, '登入');
-        });
-    },
-  },
-};
+          this.isLoading = false
+          this.$httpMessageState(error.response, '登入')
+        })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

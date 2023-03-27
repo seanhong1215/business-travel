@@ -30,7 +30,7 @@
               aria-controls="offcanvasRight"
             >
               <i class="bi bi-cart-fill"></i>
-              <span class="badge rounded-pill bg-danger text-white ms-1">{{ length }}</span> 
+              <span class="badge rounded-pill bg-danger text-white ms-1">{{ length }}</span>
             </a>
           </li>
         </ul>
@@ -52,7 +52,7 @@
         aria-label="Close"
       ></button>
     </div>
-    
+
     <div v-if="length !== 0" class="offcanvas-body">
       <div class="card mb-3" v-for="item in cart.carts" :key="item.id">
         <div class="row g-0">
@@ -71,7 +71,7 @@
                         type="text"
                         class="form-control"
                       />
-                     
+
               </div>
           </div>
           <div class="col-md-3 input-space">
@@ -99,21 +99,21 @@
   </div>
 </template>
 <script>
-import cartStroe from '../store/cartStore';
-import { mapActions, mapState } from 'pinia';
+import cartStroe from '../store/cartStore'
+import { mapActions, mapState } from 'pinia'
 
 export default {
-  name: "Navbar",
+  name: 'NavbarView',
   methods: {
-    ...mapActions(cartStroe, ['getCart','delProduct','deleteProducts','selectCartQty']),
+    ...mapActions(cartStroe, ['getCart', 'delProduct', 'deleteProducts', 'selectCartQty'])
   },
   computed: {
-    ...mapState(cartStroe, ['cart','length']),
+    ...mapState(cartStroe, ['cart', 'length'])
   },
-  mounted() {
-    this.getCart();
-  },
-};
+  mounted () {
+    this.getCart()
+  }
+}
 </script>
 <style lang="scss" scoped>
 ul,

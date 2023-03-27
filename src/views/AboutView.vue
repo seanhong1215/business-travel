@@ -63,23 +63,23 @@
 </template>
 
 <script>
-//引入AOS及其附帶的css
+// 引入AOS及其附帶的css
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 export default {
-  name: "AboutView",
-  data() {
-    return {};
+  name: 'AboutView',
+  data () {
+    return {}
   },
   methods: {},
   mounted () {
     AOS.init({
-        offset: 400, // offset (in px) from the original trigger point
-        delay: 0, // values from 0 to 3000, with step 50ms
-        duration: 1000 // values from 0 to 3000, with step 50ms
-      })
+      offset: 400, // offset (in px) from the original trigger point
+      delay: 0, // values from 0 to 3000, with step 50ms
+      duration: 1000 // values from 0 to 3000, with step 50ms
+    })
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

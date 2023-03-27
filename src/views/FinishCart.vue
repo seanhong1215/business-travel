@@ -35,18 +35,18 @@
 
 <script>
 export default {
-  name: "FinishCart",
-  data() {
+  name: 'FinishCart',
+  data () {
     return {
       isLoading: false,
       loadingStatus: {
-        loadingItem: "",
-      },
-    };
+        loadingItem: ''
+      }
+    }
   },
   methods: {},
-  mounted() {},
-};
+  mounted () {}
+}
 </script>
 
 <style lang="scss" scoped>
